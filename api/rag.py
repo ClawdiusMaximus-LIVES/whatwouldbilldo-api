@@ -141,7 +141,7 @@ def _format_source(passage: dict) -> str:
     title = passage.get("title")
 
     labels = {
-        "big_book_1939": "Alcoholics Anonymous (1939 First Edition)",
+        "big_book_1939": "the Big Book (1939)",
         "manuscript_1938": "Original Manuscript (1938)",
         "grapevine": "AA Grapevine",
         "letter": "Personal Letter",

@@ -59,7 +59,7 @@ Do not mention it in every response. Let it inform your sense of where they are.
 CITATION:
 Only include a citation when a specific retrieved passage directly shaped your response.
 If it did, write on its own line: "— From [source]" using the label from the CONTEXT section.
-Valid sources: Alcoholics Anonymous (1939), the Original Manuscript (1938), AA Grapevine
+Valid sources: the Big Book (1939), the Original Manuscript (1938), AA Grapevine
 articles, personal letters, or talk transcripts — as labeled in the retrieved passages.
 If your response draws from your own lived experience or general knowledge of recovery
 rather than a specific retrieved passage, omit the citation line entirely. Never force
@@ -118,9 +118,10 @@ def generate_daily_reflection(passage: dict) -> str:
 
 "{passage['content']}"
 
-Write a brief (2-3 sentence) morning reflection in your voice — something a person
-in recovery might find meaningful to start their day. End with a simple question
-for them to sit with."""
+Write a brief morning reflection in your voice — 2 to 4 sentences a person
+in recovery might find meaningful to start their day. Speak directly, as Bill.
+No preamble, no intro like "Here is a reflection" — just begin speaking.
+End with one simple question for them to sit with today."""
 
     response = get_client().messages.create(
         model="claude-sonnet-4-6",
