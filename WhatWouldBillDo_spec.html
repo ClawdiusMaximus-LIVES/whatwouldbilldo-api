@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Would Bill Do? — iOS App Spec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c0e14; --s1:#111418; --s2:#181c24; --s3:#1e232e; --border:#252d3d;
+  --amber:#C8860A; --amber2:#e8a020; --amber-dim:rgba(200,134,10,0.12);
+  --cream:#F5EDD6; --parchment:#E8D5A3; --sepia:#8B6914;
+  --teal:#00d4aa; --blue:#4f9fff; --red:#e8440a;
+  --text:#dce2ee; --muted:#5a6478; --muted2:#7a8498;
+  --mono:'DM Mono',monospace; --sans:'Bricolage Grotesque',sans-serif;
+  --serif:'EB Garamond',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;}
+.container{max-width:1100px;margin:0 auto;padding:0 32px;}
+
+/* COVER */
+.cover{
+  background:linear-gradient(135deg,#100c06 0%,#0c0e14 40%,#060c12 100%);
+  border-bottom:1px solid var(--border);
+  padding:72px 48px 56px;
+  position:relative;overflow:hidden;
+}
+.cover::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 25% 50%,rgba(200,134,10,.08),transparent 55%),
+              radial-gradient(ellipse at 75% 20%,rgba(232,160,32,.04),transparent 50%);
+}
+.cover::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(200,134,10,.3),transparent);
+}
+.cover-inner{position:relative;max-width:1100px;margin:0 auto;}
+.cover-tag{font-family:var(--mono);font-size:.72rem;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;}
+.cover h1{
+  font-family:var(--serif);
+  font-size:clamp(2.4rem,5vw,4.2rem);font-weight:600;line-height:1.1;
+  color:var(--cream);margin-bottom:10px;
+  text-shadow:0 0 60px rgba(200,134,10,.2);
+}
+.cover h1 span{color:var(--amber2);}
+.cover-sub{font-size:1rem;color:var(--muted2);margin-bottom:40px;max-width:600px;font-family:var(--mono);line-height:1.7;}
+.cover-meta{display:flex;gap:32px;flex-wrap:wrap;margin-top:32px;}
+.cover-meta-item{display:flex;flex-direction:column;gap:4px;}
+.cover-meta-item .val{font-size:.95rem;font-weight:700;color:var(--cream);}
+.cover-meta-item .lbl{font-size:.65rem;font-family:var(--mono);color:var(--amber);text-transform:uppercase;letter-spacing:.1em;}
+.go-badge{display:inline-block;background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.4);color:var(--teal);padding:6px 18px;border-radius:20px;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;margin-top:20px;}
+
+/* NAV */
+.toc{background:var(--s1);border-bottom:1px solid var(--border);padding:16px 32px;position:sticky;top:0;z-index:100;}
+.toc-inner{max-width:1100px;margin:0 auto;display:flex;gap:24px;flex-wrap:wrap;align-items:center;}
+.toc a{font-family:var(--mono);font-size:.68rem;color:var(--muted2);text-decoration:none;text-transform:uppercase;letter-spacing:.08em;transition:color .2s;}
+.toc a:hover{color:var(--amber);}
+.toc-title{font-family:var(--mono);font-size:.68rem;color:var(--amber);text-transform:uppercase;letter-spacing:.1em;margin-right:8px;}
+
+/* SECTIONS */
+section{padding:64px 0;border-bottom:1px solid var(--border);}
+.section-tag{font-family:var(--mono);font-size:.68rem;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;}
+h2{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:600;color:var(--cream);margin-bottom:8px;}
+.section-desc{color:var(--muted2);margin-bottom:32px;max-width:680px;font-size:.92rem;}
+h3{font-size:1.05rem;font-weight:700;color:var(--cream);margin-bottom:8px;}
+h4{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;font-family:var(--mono);}
+
+/* IDENTITY BLOCK */
+.identity-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px;}
+.id-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:20px 24px;}
+.id-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.85rem;gap:16px;}
+.id-row:last-child{border-bottom:none;}
+.id-key{font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;flex-shrink:0;}
+.id-val{color:var(--cream);font-weight:600;text-align:right;}
+.id-val.mono{font-family:var(--mono);font-size:.8rem;color:var(--amber);}
+
+/* DESIGN SYSTEM */
+.color-swatch{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.swatch{width:36px;height:36px;border-radius:8px;flex-shrink:0;border:1px solid rgba(255,255,255,.1);}
+.swatch-info .name{font-size:.85rem;font-weight:600;color:var(--cream);}
+.swatch-info .hex{font-family:var(--mono);font-size:.72rem;color:var(--muted);}
+.swatch-info .role{font-size:.75rem;color:var(--muted2);}
+.design-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px;}
+.design-block{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:20px 24px;}
+
+/* PARCHMENT PREVIEW */
+.parchment-preview{
+  background:linear-gradient(145deg,#F5EDD6 0%,#EDD9A3 30%,#E8D5A0 60%,#F0E3B8 100%);
+  border:1px solid #C4A96A;border-radius:16px;padding:24px;margin:20px 0;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.08);
+  position:relative;overflow:hidden;
+}
+.parchment-preview::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.4;
+}
+.parchment-preview .bill-bubble{
+  background:rgba(245,237,214,.95);border:1px solid #C4A96A;
+  border-radius:4px 16px 16px 16px;padding:16px 20px;
+  font-family:var(--serif);font-size:.95rem;color:#2C1810;line-height:1.7;
+  position:relative;
+  box-shadow:0 2px 8px rgba(139,105,20,.15);
+}
+.parchment-preview .bill-name{
+  font-family:var(--mono);font-size:.65rem;color:var(--sepia);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;
+}
+.parchment-preview .citation{
+  font-family:var(--mono);font-size:.68rem;color:var(--sepia);
+  margin-top:10px;padding-top:8px;border-top:1px solid rgba(139,105,20,.2);
+  font-style:italic;
+}
+.parchment-preview .user-bubble{
+  background:rgba(200,134,10,.12);border:1px solid rgba(200,134,10,.3);
+  border-radius:16px 4px 16px 16px;padding:12px 18px;
+  font-family:var(--sans);font-size:.88rem;color:#2C1810;
+  margin-left:auto;max-width:75%;text-align:right;
+  margin-top:12px;
+}
+
+/* ARCHITECTURE */
+.arch-flow{display:flex;align-items:center;gap:0;margin:24px 0;overflow-x:auto;padding:8px 0;}
+.arch-box{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:14px 18px;text-align:center;min-width:130px;flex-shrink:0;}
+.arch-box .label{font-family:var(--mono);font-size:.68rem;color:var(--amber);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.arch-box .tech{font-size:.8rem;color:var(--text);font-weight:600;}
+.arch-box .sub{font-family:var(--mono);font-size:.65rem;color:var(--muted);}
+.arch-arrow{color:var(--muted);font-size:1.2rem;padding:0 8px;flex-shrink:0;}
+.arch-crisis{border-color:rgba(232,68,10,.4);background:rgba(232,68,10,.05);}
+.arch-crisis .label{color:var(--red);}
+
+/* TECH TABLE */
+table{width:100%;border-collapse:collapse;margin:24px 0;font-size:.85rem;}
+thead{background:var(--s2);}
+th{padding:10px 14px;text-align:left;font-family:var(--mono);font-size:.68rem;text-transform:uppercase;color:var(--muted);letter-spacing:.06em;}
+td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);}
+tr:nth-child(odd) td{background:var(--s1);}
+td code{font-family:var(--mono);font-size:.78rem;color:var(--amber);background:rgba(200,134,10,.08);padding:2px 6px;border-radius:4px;}
+
+/* MONETIZATION */
+.mono-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px;}
+.mono-col{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative;}
+.mono-col.featured{border-color:rgba(200,134,10,.5);background:linear-gradient(135deg,rgba(200,134,10,.08),transparent);}
+.mono-col.featured::before{content:'BEST VALUE';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--amber);color:#000;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;padding:3px 12px;border-radius:10px;font-weight:700;}
+.mono-col h3{font-size:.88rem;font-weight:700;margin-bottom:6px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted2);}
+.mono-col .price{font-size:2rem;font-weight:800;color:var(--amber);margin:8px 0 4px;}
+.mono-col .price-sub{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-bottom:16px;}
+.mono-col .iap-id{font-family:var(--mono);font-size:.7rem;color:var(--amber);background:rgba(200,134,10,.08);padding:4px 10px;border-radius:6px;display:inline-block;margin-bottom:16px;}
+.mono-col ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.mono-col li{font-size:.82rem;color:var(--muted2);}
+.mono-col li::before{content:'→ ';color:var(--amber);}
+
+/* SESSION PROMPTS */
+.session-block{background:var(--s1);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin:20px 0;}
+.session-header{background:var(--s2);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;gap:16px;}
+.session-num{background:var(--amber);color:#000;font-family:var(--mono);font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:20px;}
+.session-title{font-size:.95rem;font-weight:700;color:var(--cream);}
+.session-meta{font-family:var(--mono);font-size:.68rem;color:var(--muted);}
+.session-time{margin-left:auto;font-family:var(--mono);font-size:.68rem;color:var(--muted);}
+.session-body{padding:20px 24px;}
+.prompt-box{background:#0a0c10;border:1px solid var(--border);border-radius:10px;padding:20px;font-family:var(--mono);font-size:.78rem;color:#c8d0e0;line-height:1.8;white-space:pre-wrap;overflow-x:auto;margin-top:12px;}
+.prompt-box .comment{color:var(--muted);}
+.gotcha-item{background:rgba(232,68,10,.05);border:1px solid rgba(232,68,10,.15);border-left:3px solid var(--red);border-radius:8px;padding:12px 16px;margin:8px 0;font-size:.82rem;}
+.gotcha-item .gotcha-label{font-family:var(--mono);font-size:.65rem;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+
+/* CALLOUTS */
+.callout{border-radius:12px;padding:18px 22px;margin:20px 0;border-left:3px solid;}
+.callout-amber{background:rgba(200,134,10,.06);border-color:var(--amber);}
+.callout-teal{background:rgba(0,212,170,.06);border-color:var(--teal);}
+.callout-red{background:rgba(232,68,10,.06);border-color:var(--red);}
+.callout strong{display:block;font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.callout-amber strong{color:var(--amber);}
+.callout-teal strong{color:var(--teal);}
+.callout-red strong{color:var(--red);}
+.callout p{font-size:.85rem;color:var(--muted2);line-height:1.6;}
+
+/* CHECKLIST */
+.checklist{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+.checklist li{font-size:.85rem;color:var(--muted2);padding:8px 12px;background:var(--s1);border:1px solid var(--border);border-radius:8px;display:flex;align-items:flex-start;gap:10px;}
+.checklist li::before{content:'☐';color:var(--amber);font-size:1rem;line-height:1;flex-shrink:0;}
+.checklist li.done::before{content:'✓';color:var(--teal);}
+
+/* DISPATCH */
+.dispatch-step{display:flex;gap:16px;margin:16px 0;}
+.dispatch-num{width:32px;height:32px;border-radius:50%;background:var(--amber-dim);border:1px solid rgba(200,134,10,.3);color:var(--amber);font-family:var(--mono);font-size:.72rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+.dispatch-content{flex:1;}
+.dispatch-content .title{font-size:.88rem;font-weight:700;color:var(--cream);margin-bottom:4px;}
+.dispatch-content .desc{font-size:.8rem;color:var(--muted2);}
+.dispatch-content code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:rgba(200,134,10,.08);padding:2px 8px;border-radius:4px;}
+
+/* FOOTER */
+footer{padding:40px 0;text-align:center;}
+footer p{font-family:var(--mono);font-size:.68rem;color:var(--muted);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .identity-grid,.design-cols,.mono-grid{grid-template-columns:1fr;}
+  .arch-flow{flex-wrap:wrap;}
+  .cover{padding:48px 24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-tag">iOS App Spec · Build-Ready · April 2026</div>
+    <h1>What Would <span>Bill</span> Do?</h1>
+    <p class="cover-sub">Complete iOS build specification · 10 session prompts ready for Claude Code CLI · FastAPI backend already running · Ship to TestFlight</p>
+    <span class="go-badge">✓ Research Score 7.9 — GO</span>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><div class="val">com.whatwouldbilldo.app</div><div class="lbl">Bundle ID</div></div>
+      <div class="cover-meta-item"><div class="val">whatwouldbilldo.com</div><div class="lbl">Domain</div></div>
+      <div class="cover-meta-item"><div class="val">7BW79QC9WM</div><div class="lbl">Apple Team ID</div></div>
+      <div class="cover-meta-item"><div class="val">iOS 17+</div><div class="lbl">Deployment Target</div></div>
+      <div class="cover-meta-item"><div class="val">10 Sessions</div><div class="lbl">To TestFlight</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="toc">
+  <div class="toc-inner">
+    <span class="toc-title">Jump to →</span>
+    <a href="#identity">Identity</a>
+    <a href="#design">Design System</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#monetization">Monetization</a>
+    <a href="#sessions">Build Sessions</a>
+    <a href="#gotchas">Gotchas</a>
+    <a href="#dispatch">Dispatch Plan</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- SECTION 1: IDENTITY -->
+<section id="identity">
+  <div class="section-tag">Section 01</div>
+  <h2>App Identity</h2>
+  <p class="section-desc">The single source of truth for names, IDs, and metadata. Confirm everything here before S1.</p>
+
+  <div class="identity-grid">
+    <div class="id-card">
+      <h3 style="margin-bottom:16px;font-size:.82rem;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--amber);">Core Identity</h3>
+      <div class="id-row"><span class="id-key">App Name</span><span class="id-val">What Would Bill Do?</span></div>
+      <div class="id-row"><span class="id-key">Tagline</span><span class="id-val" style="font-size:.82rem;font-family:var(--serif);font-style:italic;">"Bill's wisdom. Your hardest moments. Any hour."</span></div>
+      <div class="id-row"><span class="id-key">Bundle ID</span><span class="id-val mono">com.whatwouldbilldo.app</span></div>
+      <div class="id-row"><span class="id-key">App Group</span><span class="id-val mono">group.com.whatwouldbilldo.app.shared</span></div>
+      <div class="id-row"><span class="id-key">Domain</span><span class="id-val mono">whatwouldbilldo.com</span></div>
+      <div class="id-row"><span class="id-key">API Base URL</span><span class="id-val mono" style="font-size:.72rem;">https://api.whatwouldbilldo.com</span></div>
+      <div class="id-row"><span class="id-key">GitHub Repo</span><span class="id-val mono">ClawdiusMaximus-LIVES/whatwouldbilldo-ios</span></div>
+      <div class="id-row"><span class="id-key">Apple Team ID</span><span class="id-val mono">7BW79QC9WM</span></div>
+      <div class="id-row"><span class="id-key">Category</span><span class="id-val">Health & Fitness</span></div>
+      <div class="id-row"><span class="id-key">Secondary Cat.</span><span class="id-val">Lifestyle</span></div>
+    </div>
+
+    <div class="id-card">
+      <h3 style="margin-bottom:16px;font-size:.82rem;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--amber);">App Store Metadata</h3>
+      <div class="id-row"><span class="id-key">Title (30 chars)</span><span class="id-val" style="font-size:.82rem;">What Would Bill Do?</span></div>
+      <div class="id-row"><span class="id-key">Subtitle (30 chars)</span><span class="id-val" style="font-size:.82rem;">AA Wisdom AI &amp; 12-Step Guide</span></div>
+      <div class="id-row"><span class="id-key">Age Rating</span><span class="id-val">12+</span></div>
+      <div class="id-row"><span class="id-key">Pricing Model</span><span class="id-val">Hard Paywall (CalAI style)</span></div>
+      <div class="id-row"><span class="id-key">Free Hook</span><span class="id-val">3 "Ask Bill" conversations</span></div>
+      <div class="id-row"><span class="id-key">Conversion Gate</span><span class="id-val">4th conversation triggers paywall</span></div>
+      <div class="id-row"><span class="id-key">Privacy URL</span><span class="id-val mono" style="font-size:.72rem;">whatwouldbilldo.com/privacy</span></div>
+      <div class="id-row"><span class="id-key">Support URL</span><span class="id-val mono" style="font-size:.72rem;">whatwouldbilldo.com/support</span></div>
+      <div class="id-row"><span class="id-key">iOS Min Version</span><span class="id-val">iOS 17.0</span></div>
+      <div class="id-row"><span class="id-key">Device Support</span><span class="id-val">iPhone + iPad</span></div>
+    </div>
+  </div>
+
+  <div class="callout callout-amber" style="margin-top:24px;">
+    <strong>⚠️ Legal Disclaimer — Required on Every Screen</strong>
+    <p>"What Would Bill Do? is an independent AI tool grounded in Bill W.'s public domain writings (1938–1939). It is not affiliated with, endorsed by, or connected to Alcoholics Anonymous World Services, Inc. (AAWS). If you need a sponsor or meeting, please seek one. In crisis, call or text 988."</p>
+  </div>
+</section>
+
+<!-- SECTION 2: DESIGN SYSTEM -->
+<section id="design">
+  <div class="section-tag">Section 02</div>
+  <h2>Design System</h2>
+  <p class="section-desc">Warm parchment — like holding an old letter from a friend who's been through it. Not clinical. Not tech. Trustworthy and human.</p>
+
+  <div class="design-cols">
+    <div class="design-block">
+      <h4 style="margin-bottom:16px;">Color Palette</h4>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#F5EDD6;"></div>
+        <div class="swatch-info"><div class="name">Parchment</div><div class="hex">#F5EDD6</div><div class="role">Main background, Bill's chat bubbles</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#EDD9A3;"></div>
+        <div class="swatch-info"><div class="name">Old Paper</div><div class="hex">#EDD9A3</div><div class="role">Section backgrounds, card fills</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#C8860A;"></div>
+        <div class="swatch-info"><div class="name">Amber / Gold</div><div class="hex">#C8860A</div><div class="role">Primary accent, CTAs, icons</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#8B4513;"></div>
+        <div class="swatch-info"><div class="name">Saddle Brown</div><div class="hex">#8B4513</div><div class="role">Secondary text, citations, muted</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#2C1810;"></div>
+        <div class="swatch-info"><div class="name">Dark Leather</div><div class="hex">#2C1810</div><div class="role">Primary text on parchment</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#C4A96A;"></div>
+        <div class="swatch-info"><div class="name">Aged Gold</div><div class="hex">#C4A96A</div><div class="role">Borders, dividers, subtle lines</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#E53935;"></div>
+        <div class="swatch-info"><div class="name">Crisis Red</div><div class="hex">#E53935</div><div class="role">Crisis detection UI only</div></div>
+      </div>
+    </div>
+
+    <div class="design-block">
+      <h4 style="margin-bottom:16px;">Typography</h4>
+      <div style="margin-bottom:20px;">
+        <div style="font-family:'EB Garamond',serif;font-size:1.4rem;color:#C8860A;margin-bottom:4px;">EB Garamond — Bill's Voice</div>
+        <div style="font-size:.75rem;color:var(--muted2);font-family:var(--mono);">Used for Bill's responses, chapter titles, pull quotes. 16–20pt on screen. Adds authenticity — feels like the Big Book itself.</div>
+      </div>
+      <div style="margin-bottom:20px;">
+        <div style="font-size:1.1rem;font-weight:600;color:var(--cream);margin-bottom:4px;">SF Pro — System UI</div>
+        <div style="font-size:.75rem;color:var(--muted2);font-family:var(--mono);">Used for navigation, user messages, buttons, settings. System default. No import needed. Dynamic Type support built in.</div>
+      </div>
+      <div>
+        <div style="font-family:monospace;font-size:.95rem;color:var(--amber);margin-bottom:4px;">SF Mono — Citations &amp; Metadata</div>
+        <div style="font-size:.75rem;color:var(--muted2);font-family:var(--mono);">Used for source citations, dates, system messages. Small, unobtrusive, credible.</div>
+      </div>
+
+      <h4 style="margin-top:24px;margin-bottom:12px;">Layout Constants</h4>
+      <div class="id-row" style="padding:6px 0;"><span class="id-key">Corner Radius (cards)</span><span class="id-val mono">16pt</span></div>
+      <div class="id-row" style="padding:6px 0;"><span class="id-key">Corner Radius (buttons)</span><span class="id-val mono">12pt</span></div>
+      <div class="id-row" style="padding:6px 0;"><span class="id-key">Padding (screens)</span><span class="id-val mono">20pt horizontal</span></div>
+      <div class="id-row" style="padding:6px 0;"><span class="id-key">Card shadow</span><span class="id-val mono">.shadow(radius:4, y:2)</span></div>
+      <div class="id-row" style="padding:6px 0;"><span class="id-key">Color Scheme</span><span class="id-val">Light only (v1)</span></div>
+    </div>
+  </div>
+
+  <!-- PARCHMENT PREVIEW -->
+  <h3 style="margin-top:32px;margin-bottom:16px;">Chat UI Preview — "Ask Bill" Screen</h3>
+  <div class="parchment-preview">
+    <div class="bill-bubble">
+      <div class="bill-name">Bill W.</div>
+      I hear what you're saying. And I know that feeling — the idea that one drink, just one, might take the edge off what's eating at you. I've been there myself, and I can tell you plainly: for men and women like us, that thought is the beginning of a very bad road.
+      <br><br>
+      What I've come to believe is that the craving itself is a signal — not a sentence. It means something has gotten under your skin that needs attention. Something about that situation, that person, or that day has stirred up more than you can sit with alone. And that's exactly when we need to reach out — not reach for a bottle.
+      <div class="citation">— From Alcoholics Anonymous (1939), Chapter 5: How It Works · Retrieved from your corpus</div>
+    </div>
+    <div class="user-bubble">I've had the urge to drink today. Work was brutal.</div>
+  </div>
+
+  <div class="design-cols" style="margin-top:24px;">
+    <div class="design-block">
+      <h4>App Icon Concept</h4>
+      <p style="font-size:.85rem;color:var(--muted2);margin-top:8px;line-height:1.6;">
+        <strong style="color:var(--cream);">A single candle flame</strong> — warm amber glow on a cream/parchment background. Simple, centered, hopeful. The candle represents the single light that stays lit even in the darkest moment — the reason someone picks up the phone at 3am instead of reaching for the bottle.<br><br>
+        Background: aged parchment (#F0E3B8 gradient). Flame: warm amber (#C8860A) to gold (#FFD166) with soft glow. The flame should be hand-drawn in style — not glossy, not geometric. Like it was sketched by someone in recovery.<br><br>
+        No text. No AA symbol (trademark risk). No sobriety counter aesthetic. Just the candle.
+      </p>
+    </div>
+    <div class="design-block">
+      <h4>App Store Screenshots (Order)</h4>
+      <ol style="font-size:.82rem;color:var(--muted2);margin-top:8px;padding-left:16px;line-height:2;">
+        <li>Real "Ask Bill" conversation — hard topic (craving, resentment)</li>
+        <li>"3am. Your sponsor isn't available. Bill is." — dark screen, warm light</li>
+        <li>Daily Reflection widget on home screen</li>
+        <li>Sobriety milestone celebration card</li>
+        <li>Step work guide with Bill's annotations</li>
+      </ol>
+      <div style="font-size:.75rem;color:var(--amber);font-family:var(--mono);margin-top:12px;">Lead with the emotional use case. Not the feature list.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: ARCHITECTURE -->
+<section id="architecture">
+  <div class="section-tag">Section 03</div>
+  <h2>Technical Architecture</h2>
+  <p class="section-desc">The iOS app is a pure client — it calls your existing FastAPI backend. No local corpus. No local ML. The heavy lifting is already done.</p>
+
+  <div class="arch-flow">
+    <div class="arch-box">
+      <div class="label">User Input</div>
+      <div class="tech">SwiftUI</div>
+      <div class="sub">TextEditor + send</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box" style="border-color:rgba(200,134,10,.3);">
+      <div class="label">Paywall Check</div>
+      <div class="tech">Superwall</div>
+      <div class="sub">After 3 free convos</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box">
+      <div class="label">API Call</div>
+      <div class="tech">URLSession</div>
+      <div class="sub">POST /ask</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box" style="border-color:rgba(232,68,10,.3);">
+      <div class="label">Crisis Check</div>
+      <div class="tech">FastAPI Server</div>
+      <div class="sub">GPT-4o-mini first</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box">
+      <div class="label">Bill Response</div>
+      <div class="tech">Claude Haiku</div>
+      <div class="sub">RAG + persona</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box">
+      <div class="label">Render</div>
+      <div class="tech">Parchment UI</div>
+      <div class="sub">Typewriter effect</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Layer</th><th>Technology</th><th>Why</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Language</td><td>Swift 6</td><td>Strict concurrency, future-proof</td><td>Enable in Xcode build settings</td></tr>
+      <tr><td>UI Framework</td><td>SwiftUI + iOS 17 APIs</td><td>@Observable, ScrollView improvements</td><td>No UIKit unless forced</td></tr>
+      <tr><td>State Management</td><td>@Observable (Swift 5.9+)</td><td>Replaces ObservableObject cleanly</td><td>No Combine needed</td></tr>
+      <tr><td>Networking</td><td>URLSession + async/await</td><td>Built-in, clean, no dependencies</td><td>Custom <code>APIClient</code> struct</td></tr>
+      <tr><td>Persistence</td><td>SwiftData</td><td>Conversation history, sobriety date</td><td>iOS 17+ only, perfect here</td></tr>
+      <tr><td>IAP</td><td>StoreKit 2</td><td>async/await API, JWS verification</td><td>3 product IDs</td></tr>
+      <tr><td>Paywall</td><td>Superwall</td><td>A/B test paywall without re-shipping</td><td>Hard gate after 3 free convos</td></tr>
+      <tr><td>Widgets</td><td>WidgetKit</td><td>Daily Bill quote on home screen</td><td>Needs App Group for shared data</td></tr>
+      <tr><td>Project Config</td><td>xcodegen</td><td>Reproducible, no .xcodeproj merge hell</td><td><code>project.yml</code> defines everything</td></tr>
+      <tr><td>CI / Delivery</td><td>Xcode + Transporter CLI</td><td>Upload to TestFlight from terminal</td><td>Archive → export → upload</td></tr>
+      <tr><td>Backend</td><td>FastAPI on Railway</td><td>Already built. Just needs deploy.</td><td>Railway GitHub auto-deploy</td></tr>
+    </tbody>
+  </table>
+
+  <div class="design-cols" style="margin-top:24px;">
+    <div class="design-block">
+      <h4>App Structure (Folders)</h4>
+      <pre style="font-family:var(--mono);font-size:.72rem;color:var(--muted2);margin-top:8px;line-height:1.8;">WhatWouldBillDo/
+├── App/
+│   ├── WhatWouldBillDoApp.swift
+│   └── AppState.swift          ← @Observable root state
+├── Features/
+│   ├── Chat/
+│   │   ├── ChatView.swift
+│   │   ├── ChatViewModel.swift
+│   │   └── BillMessageView.swift
+│   ├── Onboarding/
+│   │   ├── OnboardingView.swift
+│   │   └── SobrietyDateView.swift
+│   ├── DailyReflection/
+│   │   └── DailyReflectionView.swift
+│   └── Settings/
+│       └── SettingsView.swift
+├── Models/
+│   ├── Message.swift           ← SwiftData model
+│   ├── Conversation.swift      ← SwiftData model
+│   └── APIModels.swift         ← Codable request/response
+├── Services/
+│   ├── APIClient.swift         ← URLSession wrapper
+│   ├── PurchaseManager.swift   ← StoreKit 2
+│   └── ConversationStore.swift
+├── Widgets/
+│   └── DailyReflectionWidget.swift
+└── Resources/
+    ├── Assets.xcassets
+    └── Localizable.strings</pre>
+    </div>
+    <div class="design-block">
+      <h4>API Endpoints Used</h4>
+      <div style="margin-top:8px;">
+        <div style="margin-bottom:12px;">
+          <div style="font-family:var(--mono);font-size:.75rem;color:var(--amber);margin-bottom:4px;">POST /ask</div>
+          <div style="font-size:.8rem;color:var(--muted2);">Main conversation endpoint. Sends message + history. Returns Bill's response, citations, crisis flag.</div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <div style="font-family:var(--mono);font-size:.75rem;color:var(--amber);margin-bottom:4px;">GET /health</div>
+          <div style="font-size:.8rem;color:var(--muted2);">Startup check. Returns passage count. Use to verify API is reachable before first conversation.</div>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:.75rem;color:var(--amber);margin-bottom:4px;">GET /daily-reflection</div>
+          <div style="font-size:.8rem;color:var(--muted2);">Daily widget data. Returns passage + Bill's reflection. Called once per day, cached locally.</div>
+        </div>
+      </div>
+
+      <h4 style="margin-top:20px;">SwiftData Models</h4>
+      <pre style="font-family:var(--mono);font-size:.72rem;color:var(--muted2);margin-top:8px;line-height:1.7;">@Model class Conversation {
+  var id: UUID
+  var startedAt: Date
+  var messages: [Message]
+}
+
+@Model class Message {
+  var id: UUID
+  var role: String  // "user" | "bill"
+  var content: String
+  var citations: [String]
+  var timestamp: Date
+}</pre>
+    </div>
+  </div>
+
+  <div class="callout callout-amber" style="margin-top:16px;">
+    <strong>📌 API Key Strategy</strong>
+    <p>The iOS app does NOT include the Anthropic or OpenAI API keys. It calls YOUR FastAPI backend, which holds the keys on Railway. This is correct — never ship API keys in an iOS app. The Railway backend is the secure layer. Consider adding a simple API key header from the iOS app to the backend (e.g., <code>X-App-Key</code>) to prevent unauthorized direct calls to your Railway endpoint.</p>
+  </div>
+</section>
+
+<!-- SECTION 4: MONETIZATION -->
+<section id="monetization">
+  <div class="section-tag">Section 04</div>
+  <h2>Monetization</h2>
+  <p class="section-desc">Hard paywall after 3 conversations — CalAI style. The free tier proves the product; the paywall converts the convinced. No free tier for the core feature once the hook is set.</p>
+
+  <div class="mono-grid">
+    <div class="mono-col">
+      <h3>Weekly</h3>
+      <div class="price">$4.99</div>
+      <div class="price-sub">per week · auto-renews</div>
+      <div class="iap-id">com.whatwouldbilldo.app.weekly</div>
+      <ul>
+        <li>Unlimited Bill conversations</li>
+        <li>For newcomers not ready to commit</li>
+        <li>Highest per-unit revenue</li>
+        <li>Great for relapse-prevention surges</li>
+      </ul>
+    </div>
+    <div class="mono-col featured">
+      <h3>Monthly</h3>
+      <div class="price">$12.99</div>
+      <div class="price-sub">per month · auto-renews</div>
+      <div class="iap-id">com.whatwouldbilldo.app.monthly</div>
+      <ul>
+        <li>Unlimited Bill conversations</li>
+        <li>Daily reflection widget</li>
+        <li>Full conversation history</li>
+        <li>Sobriety milestone cards</li>
+      </ul>
+    </div>
+    <div class="mono-col">
+      <h3>Yearly</h3>
+      <div class="price">$59.99</div>
+      <div class="price-sub">per year · $5/mo · saves 62%</div>
+      <div class="iap-id">com.whatwouldbilldo.app.yearly</div>
+      <ul>
+        <li>Everything in Monthly</li>
+        <li>Best value for committed users</li>
+        <li>Recovery is a journey, not a trial</li>
+        <li>High LTV — annual subscribers rarely churn</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-teal" style="margin-top:24px;">
+    <strong>💡 Pricing Rationale (CalAI Model Research)</strong>
+    <p>CalAI ($4.99/wk, $12.99/mo, $49.99/yr) gates its core feature — the food photo analyzer — behind a hard paywall after 2 free uses. WWBD mirrors this: 3 free "Ask Bill" conversations (enough to feel the magic), then gate. The weekly option catches impulsive converts. Monthly is the main volume driver. Yearly is the high-LTV trophy. At $59.99/yr, WWBD is priced below I Am Sober ($84/yr) and less than half of Reframe ($140/yr) while delivering something neither offers: actual wisdom on demand. Blended ARPU estimate: ~$42/year. At 1,000 subscribers = $42K ARR. Cost per subscriber (Claude Haiku): ~$0.30/month = $3.60/yr. 91% margin at scale.</p>
+  </div>
+
+  <div class="design-cols" style="margin-top:24px;">
+    <div class="design-block">
+      <h4>Conversion Trigger Logic</h4>
+      <pre style="font-family:var(--mono);font-size:.75rem;color:var(--muted2);margin-top:8px;line-height:1.8;"><span style="color:var(--amber);">// In ChatViewModel</span>
+let FREE_CONVERSATIONS = 3
+
+func canSendMessage() -> Bool {
+    if subscriptionManager.isSubscribed {
+        return true
+    }
+    let used = UserDefaults.standard
+        .integer(forKey: "freeConvosUsed")
+    return used &lt; FREE_CONVERSATIONS
+}
+
+func onMessageSent() {
+    let used = UserDefaults.standard
+        .integer(forKey: "freeConvosUsed")
+    UserDefaults.standard.set(used + 1,
+        forKey: "freeConvosUsed")
+    if used + 1 >= FREE_CONVERSATIONS {
+        // Trigger Superwall
+        Superwall.shared
+            .register(event: "bill_limit_reached")
+    }
+}</pre>
+    </div>
+    <div class="design-block">
+      <h4>Superwall Event Names</h4>
+      <div style="margin-top:8px;">
+        <div class="id-row" style="padding:6px 0;"><span class="id-key">3rd convo sent</span><span class="id-val mono">bill_limit_reached</span></div>
+        <div class="id-row" style="padding:6px 0;"><span class="id-key">Tap locked feature</span><span class="id-val mono">feature_locked</span></div>
+        <div class="id-row" style="padding:6px 0;"><span class="id-key">Settings → Upgrade</span><span class="id-val mono">settings_upgrade_tap</span></div>
+        <div class="id-row" style="padding:6px 0;"><span class="id-key">Onboarding complete</span><span class="id-val mono">onboarding_completed</span></div>
+      </div>
+      <h4 style="margin-top:20px;">Entitlement Name</h4>
+      <div style="font-family:var(--mono);font-size:.78rem;color:var(--amber);margin-top:8px;padding:8px;background:rgba(200,134,10,.08);border-radius:6px;">pro</div>
+      <div style="font-size:.75rem;color:var(--muted2);margin-top:6px;">Use <code>Superwall.shared.subscriptionStatus</code> to gate features. Set up in Superwall dashboard after S6 is built.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: BUILD SESSIONS -->
+<section id="sessions">
+  <div class="section-tag">Section 05</div>
+  <h2>Build Sessions — Claude Code CLI Prompts</h2>
+  <p class="section-desc">10 self-contained session prompts. Each one can be pasted into Claude Code CLI from the project directory. Sessions that need human testing before proceeding are marked 🧪.</p>
+
+  <!-- S1 -->
+  <div class="session-block">
+    <div class="session-header">
+      <span class="session-num">S1</span>
+      <div>
+        <div class="session-title">Project Scaffold + xcodegen + GitHub + Base App</div>
+        <div class="session-meta">🧪 Test in Xcode before proceeding to S2</div>
+      </div>
+      <span class="session-time">~45 min</span>
+    </div>
+    <div class="session-body">
+      <div class="prompt-box"><span class="comment"># WWBD iOS — Session 1: Project Scaffold
+# Run from: ~/Developer/ (or wherever you keep iOS projects)
+# Goal: Working Xcode project that builds and runs on simulator</span>
+
+Create an iOS app called "What Would Bill Do?" using xcodegen.
+
+<span class="comment">## Project Setup</span>
+
+1. Create directory: WhatWouldBillDo-iOS/
+2. Initialize git repo and push to GitHub as ClawdiusMaximus-LIVES/whatwouldbilldo-ios (public repo)
+3. Create project.yml for xcodegen with:
+   - Bundle ID: com.whatwouldbilldo.app
+   - Apple Team ID: 7BW79QC9WM
+   - Deployment target: iOS 17.0
+   - Swift 6 mode (enable strict concurrency in build settings: SWIFT_STRICT_CONCURRENCY = complete)
+   - App Group entitlement: group.com.whatwouldbilldo.app.shared (for widget data sharing)
+   - StoreKit 2 capability (no configuration file needed for StoreKit 2)
+   - Push Notifications capability
+
+4. Run: xcodegen generate
+
+<span class="comment">## App Structure — Create these files</span>
+
+**WhatWouldBillDoApp.swift:**
+- @main App struct
+- Add .modelContainer(for: [Conversation.self, Message.self]) to WindowGroup
+- Force light mode: .preferredColorScheme(.light) on root view
+- Add Superwall.configure(apiKey: "SUPERWALL_API_KEY_PLACEHOLDER") in init()
+
+**AppState.swift:**
+- @Observable class AppState
+- Properties: isOnboardingComplete: Bool, sobrietyDate: Date?, freeConvosUsed: Int, isSubscribed: Bool
+- Load/save from UserDefaults
+
+**ContentView.swift:**
+- If !appState.isOnboardingComplete → show OnboardingView
+- Else → show TabView with 3 tabs: Chat (bubble icon), Reflection (book icon), Settings (gear icon)
+
+**Models/Message.swift:**
+- @Model class Message: id UUID, role String, content String, citations [String], timestamp Date
+- role is either "user" or "bill"
+
+**Models/Conversation.swift:**
+- @Model class Conversation: id UUID, startedAt Date, messages [Message]
+
+**Models/APIModels.swift:**
+- AskRequest: Codable struct { message: String, conversation_history: [[String:String]] }
+- AskResponse: Codable struct { response: String?, citations: [Citation]?, crisis: Bool, crisis_message: String?, crisis_resources: [[String:String]]? }
+- Citation: Codable struct { source: String, chapter: String?, title: String?, similarity: Double? }
+- DailyReflectionResponse: Codable struct { passage: String, source: String, reflection: String }
+
+<span class="comment">## Color System — Define in Assets.xcassets</span>
+
+Named colors:
+- ParchmentBackground: #F5EDD6 (light), #2C1810 (dark — unused in v1 but add anyway)
+- OldPaper: #EDD9A3
+- AmberAccent: #C8860A
+- LexiconText: #2C1810
+- SaddleBrown: #8B4513
+- AgedGold: #C4A96A
+- CrisisRed: #E53935
+
+Add a candle flame placeholder app icon (solid amber square is fine for now — real icon comes in S10)
+
+<span class="comment">## Verify</span>
+
+- Run: xcodegen generate
+- Open in Xcode, build for iPhone 15 Pro simulator
+- App should launch, show a placeholder "Onboarding" or blank screen — no crashes
+- Commit: git add -A && git commit -m "S1: Project scaffold, xcodegen, SwiftData models, app structure" && git push origin main</div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="session-block">
+    <div class="session-header">
+      <span class="session-num">S2</span>
+      <div>
+        <div class="session-title">API Client + Networking Layer</div>
+        <div class="session-meta">No device testing needed — unit test the client</div>
+      </div>
+      <span class="session-time">~30 min</span>
+    </div>
+    <div class="session-body">
+      <div class="prompt-box"><span class="comment"># WWBD iOS — Session 2: Networking Layer
+# Run from: WhatWouldBillDo-iOS/ project root
+# Goal: APIClient that talks to the FastAPI backend</span>
+
+Create Services/APIClient.swift for calling the What Would Bill Do? FastAPI backend.
+
+<span class="comment">## APIClient.swift</span>
+
+@Observable class APIClient {
+    static let shared = APIClient()
+
+    <span class="comment">// Use localhost for development, production URL for release</span>
+    #if DEBUG
+    let baseURL = "http://localhost:8000"
+    #else
+    let baseURL = "https://api.whatwouldbilldo.com"
+    #endif
+
+    <span class="comment">// POST /ask — main conversation endpoint</span>
+    func askBill(message: String, history: [[String:String]]) async throws -> AskResponse
+
+    <span class="comment">// GET /health — called on app launch to verify API reachable</span>
+    func checkHealth() async throws -> Bool
+
+    <span class="comment">// GET /daily-reflection — cached per day in UserDefaults</span>
+    func getDailyReflection() async throws -> DailyReflectionResponse
+}
+
+<span class="comment">## Implementation requirements:</span>
+- Use URLSession.shared with async/await
+- Add header: Content-Type: application/json on POST requests
+- Add header: X-App-Key: wwbd-ios-v1 (simple security header)
+- Timeout: 30 seconds (Bill responses take 2-5 seconds)
+- Handle errors: APIError enum with cases: serverError(Int), noNetwork, decodingError, apiKeyInvalid
+- For daily reflection: check UserDefaults for today's date key before making network call; cache response for 24h
+
+<span class="comment">## DailyReflectionCache.swift</span>
+- struct with date: Date, passage: String, source: String, reflection: String
+- Stored as JSON in UserDefaults key "dailyReflectionCache"
+- isFresh() -> Bool: returns true if date == today
+
+<span class="comment">## Test it (add to a test file or temporary preview):</span>
+- Call checkHealth() and print the passage count to console
+- Call getDailyReflection() and print the first 100 chars of the reflection
+
+Commit: git add -A && git commit -m "S2: APIClient with async/await, daily reflection cache, health check" && git push origin main</div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="session-block">
+    <div class="session-header">
+      <span class="session-num">S3</span>
+      <div>
+        <div class="session-title">StoreKit 2 + Purchase Manager</div>
+        <div class="session-meta">🧪 Test IAP sandbox before S4 — products must load</div>
+      </div>
+      <span class="session-time">~45 min</span>
+    </div>
+    <div class="session-body">
+      <div class="prompt-box"><span class="comment"># WWBD iOS — Session 3: StoreKit 2
+# Goal: PurchaseManager that loads products and handles transactions
+# IAP Product IDs (must match App Store Connect exactly):
+#   com.whatwouldbilldo.app.weekly   — $4.99/week
+#   com.whatwouldbilldo.app.monthly  — $12.99/month
+#   com.whatwouldbilldo.app.yearly   — $59.99/year</span>
+
+Create Services/PurchaseManager.swift using StoreKit 2.
+
+<span class="comment">## PurchaseManager.swift</span>
+
+@Observable class PurchaseManager {
+    static let shared = PurchaseManager()
+
+    var products: [Product] = []
+    var isSubscribed: Bool = false
+    var activeProductID: String? = nil
+
+    let productIDs = [
+        "com.whatwouldbilldo.app.weekly",
+        "com.whatwouldbilldo.app.monthly",
+        "com.whatwouldbilldo.app.yearly"
+    ]
+
+    func loadProducts() async  <span class="comment">// Use Product.products(for: productIDs)</span>
+    func purchase(_ product: Product) async throws -> Bool
+    func restorePurchases() async throws
+    func updateSubscriptionStatus() async  <span class="comment">// Check Transaction.currentEntitlements</span>
+    func listenForTransactions()  <span class="comment">// Transaction.updates loop, call on init</span>
+}
+
+<span class="comment">## CRITICAL: Verification pattern (no #if DEBUG bypasses)</span>
+Use this pattern in purchase():
+    let result = try await product.purchase()
+    switch result {
+    case .success(let verification):
+        switch verification {
+        case .verified(let transaction):
+            await transaction.finish()
+            isSubscribed = true
+            return true
+        case .unverified:
+            return false
+        }
+    case .userCancelled, .pending:
+        return false
+    }
+
+<span class="comment">## StoreKit Configuration File for Simulator Testing:</span>
+Create WWBD_StoreKit.storekit in the project root with all 3 products defined.
+Add to scheme: Edit Scheme → Run → Options → StoreKit Configuration → WWBD_StoreKit.storekit
+
+<span class="comment">## updateSubscriptionStatus() pattern:</span>
+    for await result in Transaction.currentEntitlements {
+        if case .verified(let transaction) = result {
+            if !transaction.isExpired && !transaction.isRevoked {
+                isSubscribed = true
+                activeProductID = transaction.productID
+            }
+        }
+    }
+
+<span class="comment">## Test:</span>
+- Run in simulator, StoreKit config loaded
+- Products should load with correct names and prices
+- Do a test purchase with sandbox account — verify isSubscribed goes true
+- Restore purchases — verify status persists
+
+Commit: git add -A && git commit -m "S3: StoreKit 2 PurchaseManager, sandbox test config, 3 IAP products" && git push origin main</div>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="session-block">
+    <div class="session-header">
+      <span class="session-num">S4</span>
+      <div>
+        <div class="session-title">Onboarding Flow</div>
+        <div class="session-meta">🧪 Test on real device — onboarding must feel right before building chat</div>
+      </div>
+      <span class="session-time">~60 min</span>
+    </div>
+    <div class="session-body">
+      <div class="prompt-box"><span class="comment"># WWBD iOS — Session 4: Onboarding Flow
+# Goal: First-run experience that sells the app before the paywall</span>
+
+Build Onboarding/OnboardingView.swift — a 4-screen onboarding flow.
+
+<span class="comment">## Screen 1: Bill's Introduction</span>
+- Full screen, parchment background (#F5EDD6)
+- Bill's photo area: large amber candle flame icon, centered
+- Title (EB Garamond, 28pt): "My name is Bill."
+- Body text (EB Garamond, 18pt, SaddleBrown):
+  "I've been where you are. I know the darkness, the doubt, and what it takes to find a way through. For more than 80 years, my words have helped people just like you. I'm here whenever you need me."
+- CTA Button: "Begin" — amber fill, cream text, 56pt height, 16pt radius
+- Small disclaimer at bottom (mono, 10pt, muted): "AI grounded in Bill W.'s public domain writings. Not affiliated with AAWS."
+
+<span class="comment">## Screen 2: "When do you need me most?"</span>
+- Parchment bg, header: "When do you need me most?"
+- 4 tappable cards (multi-select OK):
+  - "At 3am when I can't sleep"
+  - "When I'm facing a craving"
+  - "Working through the Steps"
+  - "When I need to talk to someone"
+- Store selection in AppState (used for personalization later)
+- CTA: "Continue" — enabled always
+
+<span class="comment">## Screen 3: Sobriety Date (Optional)</span>
+- Header (EB Garamond): "How long have you been on your journey?"
+- DatePicker: compact style, max date = today
+- "I'd rather not say" link — skip this screen
+- If set: save to AppState.sobrietyDate and UserDefaults
+- CTA: "Set My Date" or "Skip for Now"
+- Tone: no judgment. Recovery starts whenever it starts.
+
+<span class="comment">## Screen 4: Your First 3 Conversations Are Free</span>
+- Header: "Ask Bill anything."
+- Body: "Your first 3 conversations with Bill are on us. After that, a subscription helps keep Bill's light on."
+- Show the 3 pricing options as small cards (weekly $4.99, monthly $12.99, yearly $59.99)
+- CTA (primary): "Start for Free" — amber, full width
+- CTA (secondary): "Subscribe Now" — outline amber
+- Tapping either completes onboarding: AppState.isOnboardingComplete = true
+
+<span class="comment">## Navigation:</span>
+- Use .tabViewStyle(.page) with dots indicator in amber
+- Or use custom progress dots at top — whichever looks better
+- Swipe to advance is fine; no back-swipe on Screen 1
+
+<span class="comment">## Test:</span>
+- Onboarding complete → ContentView shows TabView with 3 tabs
+- Sobriety date saved → visible in Settings
+- Deleting app resets onboarding state
+
+Commit: git add -A && git commit -m "S4: Onboarding flow, sobriety date, free trial messaging" && git push origin main</div>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="session-block">
+    <div class="session-header">
+      <span class="session-num">S5</span>
+      <div>
+        <div class="session-title">Core Chat UI — "Ask Bill" Interface</div>
+        <div class="session-meta">🧪 Test with live API — this is the heart of the app</div>
+      </div>
+      <span class="session-time">~90 min</span>
+    </div>
+    <div class="session-body">
+      <div class="prompt-box"><span class="comment"># WWBD iOS — Session 5: Chat UI
+# Goal: The "Ask Bill" conversation screen — the core product experience
+# This screen must feel like receiving a letter, not using a chatbot</span>
+
+Build Features/Chat/ChatView.swift, ChatViewModel.swift, and BillMessageView.swift.
+
+<span class="comment">## ChatView.swift — Layout</span>
+
+NavigationStack {
+    VStack(spacing: 0) {
+        <span class="comment">// Top bar: "Ask Bill" title in EB Garamond, amber candle icon</span>
+        <span class="comment">// Free convo counter if not subscribed: "2 conversations remaining"</span>
+
+        <span class="comment">// Message scroll area</span>
+        ScrollViewReader { proxy in
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach(viewModel.messages) { message in
+                        if message.role == "bill" {
+                            BillMessageView(message: message)
+                        } else {
+                            UserMessageView(message: message)
+                        }
+                    }
+                    if viewModel.isLoading {
+                        BillTypingIndicatorView()  <span class="comment">// 3 animated amber dots</span>
+                    }
+                }
+                .padding(20)
+            }
+        }
+
+        <span class="comment">// Input bar: TextField + Send button</span>
+        MessageInputView(onSend: viewModel.sendMessage)
+    }
+    .background(Color("ParchmentBackground"))
+}
+
+<span class="comment">## BillMessageView.swift — Parchment Card</span>
+- Background: cream (#F5EDD6) with subtle texture overlay
+- Border: 1pt AgedGold (#C4A96A)
+- Border radius: 4pt top-left, 16pt others (letter-like, asymmetric)
+- Shadow: .shadow(color: .brown.opacity(0.15), radius: 4, y: 2)
+- "Bill W." label: mono 10pt, SaddleBrown, uppercase, letterspaced
+- Message body: EB Garamond 17pt, LexiconText (#2C1810), lineSpacing 4
+- Citation footer (if citations present):
+  - Divider: 1pt AgedGold
+  - Text: "— From [source], [chapter]" in mono 11pt italic, SaddleBrown
+- Typewriter animation: reveal text character by character over 0.8s using Timer
+
+<span class="comment">## UserMessageView.swift</span>
+- Right-aligned bubble
+- Background: amber (#C8860A) at 15% opacity, border: amber 25% opacity
+- Border radius: 16pt top-right as 4pt, others 16pt
+- Text: SF Pro 16pt, LexiconText
+
+<span class="comment">## ChatViewModel.swift</span>
+
+@Observable class ChatViewModel {
+    var messages: [DisplayMessage] = []
+    var isLoading = false
+    var inputText = ""
+    var currentConversation: Conversation?
+
+    func sendMessage(_ text: String) async {
+        <span class="comment">// 1. Check if can send (paywall gate)</span>
+        guard appState.canSendMessage() else {
+            Superwall.shared.register(event: "bill_limit_reached")
+            return
+        }
+
+        <span class="comment">// 2. Add user message immediately to UI</span>
+        <span class="comment">// 3. Save to SwiftData</span>
+        <span class="comment">// 4. Build history from current conversation</span>
+        <span class="comment">// 5. Call APIClient.shared.askBill()</span>
+        <span class="comment">// 6. Handle crisis response: show CrisisView full-screen sheet</span>
+        <span class="comment">// 7. Handle normal response: add Bill message, animate typewriter</span>
+        <span class="comment">// 8. Increment freeConvosUsed in AppState</span>
+        <span class="comment">// 9. Save to SwiftData</span>
+    }
+}
+
+<span class="comment">## CrisisView.swift — Full screen sheet</span>
+- Red/amber gradient background
+- Large "You are not alone" in EB Garamond
+- 3 crisis resource cards with tap-to-call:
+  - 988 Suicide & Crisis Lifeline
+  - SAMHSA: 1-800-662-4357
+  - Crisis Text Line: Text HOME to 741741
+- "Return to Bill" button (amber, bottom)
+- This view overrides everything — no dismiss via swipe
+
+<span class="comment">## MessageInputView.swift</span>
+- TextEditor (multi-line), parchment bg, AgedGold border
+- Placeholder: "Ask Bill anything..."
+- Send button: amber, paper-plane icon
+- Disabled while isLoading is true
+- Max 500 characters (show counter at 400+)
+
+<span class="comment">## Test with live API (start uvicorn locally):</span>
+- Ask "I'm struggling with resentment" — verify Bill response + citation
+- Ask something that triggers crisis — verify CrisisView appears
+- Send 3 messages — verify paywall triggers on 4th (in sandbox)
+
+Commit: git add -A && git commit -m "S5: Chat UI with parchment cards, typewriter effect, crisis view, paywall gate" && git push origin main</div>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="session-block">
+    <div class="session-header">
+      <span class="session-num">S6</span>
+      <div>
+        <div class="session-title">Superwall Paywall Integration</div>
+        <div class="session-meta">⚙️ Requires Superwall dashboard setup first</div>
+      </div>
+      <span class="session-time">~45 min</span>
+    </div>
+    <div class="session-body">
+      <div class="prompt-box"><span class="comment"># WWBD iOS — Session 6: Superwall
+# Before running this session:
+# 1. Create Superwall project: "What Would Bill Do?"
+# 2. Add iOS app with bundle ID: com.whatwouldbilldo.app
+# 3. Create paywall using "Classic" template
+# 4. Create campaign: event "bill_limit_reached" → show paywall
+# 5. Get your Superwall API key (looks like: pk_xxxxxxxx)</span>
+
+Integrate Superwall SDK for A/B testable paywalls.
+
+<span class="comment">## Add Superwall via Swift Package Manager:</span>
+URL: https://github.com/superwall/Superwall-iOS
+Minimum version: 3.0.0
+Target: WhatWouldBillDo
+
+<span class="comment">## Configure in WhatWouldBillDoApp.swift:</span>
+import SuperwallKit
+
+@main struct WhatWouldBillDoApp: App {
+    init() {
+        Superwall.configure(
+            apiKey: "pk_YOUR_SUPERWALL_KEY",
+            purchaseController: MyPurchaseController()
+        )
+    }
+}
+
+<span class="comment">## MyPurchaseController.swift — connects Superwall to StoreKit 2</span>
+class MyPurchaseController: PurchaseController {
+    func purchase(product: SuperwallKit.StoreProduct) async -> PurchaseResult {
+        guard let storeProduct = product.sk2Product else {
+            return .failed(PurchaseError.productUnavailable)
+        }
+        do {
+            let purchased = try await PurchaseManager.shared.purchase(storeProduct)
+            return purchased ? .purchased : .cancelled
+        } catch {
+            return .failed(error)
+        }
+    }
+
+    func restorePurchases() async -> RestorationResult {
+        try? await PurchaseManager.shared.restorePurchases()
+        return .restored
+    }
+}
+
+<span class="comment">## Sync subscription status with Superwall:</span>
+In PurchaseManager.updateSubscriptionStatus():
+    await Superwall.shared.setSubscriptionStatus(
+        isSubscribed ? .active : .inactive
+    )
+
+<span class="comment">## Trigger points (already in ChatViewModel from S5):</span>
+- Superwall.shared.register(event: "bill_limit_reached")
+- Also add in Settings: Superwall.shared.register(event: "settings_upgrade_tap")
+
+<span class="comment">## Paywall design brief for Superwall dashboard:</span>
+Template: Classic (full screen)
+Background: Warm amber gradient (#C8860A to #8B4513)
+Title: "Bill is waiting for you."
+Subtitle: "Unlimited conversations. Any hour. Any struggle."
+Weekly: $4.99/week
+Monthly: $12.99/month (highlight as POPULAR)
+Yearly: $59.99/year (show monthly equivalent: "Just $5/month")
+CTA: "Begin My Journey"
+Footer: "Cancel anytime. Recovery doesn't have a cancellation fee."
+
+<span class="comment">## Test:</span>
+- Reset freeConvosUsed to 3 in UserDefaults
+- Try to send a 4th message — Superwall paywall should appear
+- Verify all 3 products display with correct prices
+- Do a sandbox purchase — verify paywall dismisses and chat continues
+
+Commit: git add -A && git commit -m "S6: Superwall integration, paywall campaign wired, PurchaseController connected" && git push origin main</div>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="session-block">
+    <div class="session-header">
+      <span class="session-num">S7</span>
+      <div>
+        <div class="session-title">Daily Reflection Tab + WidgetKit</div>
+        <div class="session-meta">No device testing required — widget previews in Xcode work</div>
+      </div>
+      <span class="session-time">~60 min</span>
+    </div>
+    <div class="session-body">
+      <div class="prompt-box"><span class="comment"># WWBD iOS — Session 7: Daily Reflection + Widget
+# Goal: The second tab — a daily Bill W. reflection with a home screen widget</span>
+
+Build Features/DailyReflection/DailyReflectionView.swift and a WidgetKit extension.
+
+<span class="comment">## DailyReflectionView.swift — Tab 2</span>
+- Header (EB Garamond, 24pt): "Today's Reflection"
+- Date: current date formatted as "Monday, April 20" in mono, amber, small
+- Parchment card (matches BillMessageView style):
+  - Passage text in EB Garamond italic, 16pt
+  - Source citation below in mono, 11pt
+  - Subtle aged paper texture (repeating SVG noise or grain image)
+- Bill's reflection section below:
+  - Label: "Bill's Reflection" in amber mono
+  - Text: reflection from /daily-reflection API, EB Garamond 15pt
+- "Ask Bill about this" CTA → switches to Chat tab with pre-filled message
+- Sobriety counter widget (if sobrietyDate is set):
+  - Days sober in large EB Garamond
+  - Milestone label: "90 days" or "6 months" or "1 year"
+  - Progress arc in amber (small decorative element)
+
+<span class="comment">## WidgetKit Extension — "Daily Bill" Widget</span>
+
+Create a new Widget Extension target: WhatWouldBillDoWidget
+
+Provider: fetches /daily-reflection once per day
+- Entry struct: DailyReflectionEntry { date, passage, source, reflection }
+- Timeline: one entry per day at midnight refresh
+
+Widget sizes: .systemSmall and .systemMedium
+
+Small widget:
+- Parchment background (#F5EDD6)
+- Short quote (first 80 chars of passage) in EB Garamond, 12pt
+- "— Bill W." in amber mono, 10pt
+- Tap → opens DailyReflectionView in app
+
+Medium widget:
+- Same parchment bg
+- Longer quote (150 chars) + reflection excerpt
+- Date in top-right, amber, mono
+
+<span class="comment">## CRITICAL: containerBackground required for iOS 17+ widgets</span>
+Use .containerBackground(for: .widget) instead of .background()
+Any color/image applied to widget background MUST use containerBackground.
+Failure to do this causes widgets to appear with wrong background on iOS 17.
+
+<span class="comment">## App Group for widget data sharing:</span>
+Both app target and widget target must have App Group: group.com.whatwouldbilldo.app.shared
+Widget reads cached daily reflection from UserDefaults(suiteName: "group.com.whatwouldbilldo.app.shared")
+App writes to same suite when it fetches the daily reflection.
+
+<span class="comment">## Test:</span>
+- Widget preview in Xcode Canvas shows parchment with quote
+- App tab shows today's reflection from API
+- "Ask Bill about this" pre-fills chat with passage topic
+
+Commit: git add -A && git commit -m "S7: Daily reflection tab, WidgetKit small/medium widget, App Group data sharing" && git push origin main</div>
+    </div>
+  </div>
+
+  <!-- S8 -->
+  <div class="session-block">
+    <div class="session-header">
+      <span class="session-num">S8</span>
+      <div>
+        <div class="session-title">Settings Tab + Subscription Management</div>
+        <div class="session-meta">No special testing needed — functional screen</div>
+      </div>
+      <span class="session-time">~45 min</span>
+    </div>
+    <div class="session-body">
+      <div class="prompt-box"><span class="comment"># WWBD iOS — Session 8: Settings Screen
+# Goal: Complete settings tab with subscription status, sobriety date, about</span>
+
+Build Features/Settings/SettingsView.swift.
+
+<span class="comment">## SettingsView — Sections:</span>
+
+**Section: My Journey**
+- Sobriety Date: DatePicker or "Not set" → tap to set
+- Days Sober: computed from sobrietyDate (bold, amber number)
+- Milestone celebration: if sobriety anniversary, show amber glow card
+
+**Section: Subscription**
+- If not subscribed:
+  - "3 free conversations remaining" (or count)
+  - "Unlock Bill — Subscribe" button → triggers Superwall event "settings_upgrade_tap"
+- If subscribed:
+  - "✓ Active Subscription" in teal
+  - Plan name and renewal date
+  - "Manage Subscription" → URL: "itms-apps://apps.apple.com/account/subscriptions"
+- "Restore Purchases" button (always visible)
+
+**Section: About Bill W.**
+- Short bio card (parchment style): William Griffith Wilson (1895–1971). Co-founder of Alcoholics Anonymous. His writings have helped millions find sobriety.
+- "View Corpus Sources" → sheet listing the public domain sources in the app
+
+**Section: Legal**
+- Disclaimer (tappable, expands): full AAWS non-affiliation disclaimer
+- Privacy Policy → open Safari to whatwouldbilldo.com/privacy
+- Terms of Service → open Safari to whatwouldbilldo.com/terms
+- "Send Feedback" → mailto:hello@whatwouldbilldo.com
+
+**Section: Developer**
+- App version (auto-populated from Bundle)
+- API status → taps checkHealth(), shows "✓ Connected (4,821 passages)" or error
+
+<span class="comment">## Sobriety Milestone Logic:</span>
+let milestones = [1, 7, 30, 60, 90, 180, 365, 730, 1825]  <span class="comment">// days</span>
+Check if days == any milestone → show celebration overlay with amber glow
+Bill says something specific for each milestone — hardcode 9 micro-responses
+
+<span class="comment">## Styling:</span>
+Use .listStyle(.insetGrouped) with parchment tint
+Section headers in amber mono, uppercase
+Keep it functional — settings isn't the place for the parchment drama
+
+Commit: git add -A && git commit -m "S8: Settings tab, subscription management, sobriety milestones, legal section" && git push origin main</div>
+    </div>
+  </div>
+
+  <!-- S9 -->
+  <div class="session-block">
+    <div class="session-header">
+      <span class="session-num">S9</span>
+      <div>
+        <div class="session-title">Push Notifications + Final Polish</div>
+        <div class="session-meta">🧪 Test notifications on real device (not simulator)</div>
+      </div>
+      <span class="session-time">~60 min</span>
+    </div>
+    <div class="session-body">
+      <div class="prompt-box"><span class="comment"># WWBD iOS — Session 9: Push Notifications + Polish
+# Goal: Daily reflection notification + milestone alerts + full UI polish</span>
+
+<span class="comment">## Push Notifications (Local — no server needed for v1)</span>
+
+Create Services/NotificationManager.swift:
+- Request permission on first launch (after onboarding complete)
+- Schedule daily notification at 7:00am:
+  - Title: "Good morning."
+  - Body: Pull first 60 chars from cached daily reflection passage
+  - Identifier: "daily_bill_reflection"
+  - Replace any existing scheduled notification (cancel then reschedule)
+- Schedule milestone notifications: check every time sobriety date changes
+  - "30 days. You've done something remarkable."
+  - "90 days. Bill would want you to know he's proud."
+  - etc. for each milestone
+- Ask notification permission: UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])
+
+<span class="comment">## UI Polish Pass — go through every screen:</span>
+
+ChatView:
+- Add haptic feedback on send: UIImpactFeedbackGenerator(style: .light).impactOccurred()
+- Smooth scroll-to-bottom on new message: withAnimation { proxy.scrollTo(lastID) }
+- Loading state: show "Bill is reflecting..." in amber italic, EB Garamond
+- Empty state (no messages): "Ask Bill anything. He's been through it all." with suggested starters:
+  - "I'm struggling with a craving."
+  - "I'm working on Step 4."
+  - "I had a resentment come up today."
+  - "I relapsed. Now what?"
+  (IMPORTANT: Do NOT suggest "Step 12" or any specific step that implies Bill can provide medical/AA program guidance — keep suggestions human and emotional)
+
+BillMessageView:
+- Add subtle parchment grain texture using a 200x200 noise SVG as overlay at 4% opacity
+- Ensure typewriter animation is smooth (Timer with 0.02s interval, 1 char per tick)
+
+General:
+- Add .contentTransition(.numericText()) to days sober counter
+- Test Dynamic Type — all text must scale (use .font(.body) not fixed sizes where possible)
+- Test with Voice Over on — all interactive elements need .accessibilityLabel
+- Verify all hardcoded colors have a light/dark fallback in Assets (even if light-only for v1)
+
+<span class="comment">## App Store Review Note — Add to Review Notes:</span>
+"This app is an AI chatbot grounded in Bill W.'s public domain writings (1938-1939 Big Book and early Grapevine articles). It includes a crisis detection system that immediately redirects users to 988 and SAMHSA helplines when distress signals are detected. The app is not affiliated with AAWS. Test account not required — the app is free for the first 3 conversations."
+
+<span class="comment">## Test on real device:</span>
+- Notification arrives at scheduled time
+- All 3 tabs working, no crashes
+- Full conversation with API working
+- Settings: subscription management, sobriety date, restore
+
+Commit: git add -A && git commit -m "S9: Push notifications, milestone alerts, UI polish, accessibility" && git push origin main</div>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="session-block">
+    <div class="session-header">
+      <span class="session-num">S10</span>
+      <div>
+        <div class="session-title">TestFlight Upload + Railway Deploy</div>
+        <div class="session-meta">🧪 Full end-to-end test before submitting to App Review</div>
+      </div>
+      <span class="session-time">~60 min</span>
+    </div>
+    <div class="session-body">
+      <div class="prompt-box"><span class="comment"># WWBD iOS — Session 10: Ship to TestFlight
+# Goal: Archive, export, upload iOS app + deploy FastAPI to Railway</span>
+
+<span class="comment">## Pre-flight Checklist (verify before archiving):</span>
+- Bundle ID matches App Store Connect: com.whatwouldbilldo.app
+- Version: 1.0.0, Build: 1
+- All 3 IAP product IDs exist in App Store Connect (create if not done)
+- Superwall API key is the PRODUCTION key (not sandbox)
+- API base URL is production: https://api.whatwouldbilldo.com
+- Privacy manifest included (PrivacyInfo.xcprivacy) — required by Apple
+  Required keys: NSPrivacyTracking = false, NSPrivacyTrackingDomains = []
+  API types: NSPrivacyAccessedAPICategoryUserDefaults
+- Signing: Automatic signing checked, team 7BW79QC9WM selected
+
+<span class="comment">## Create App in App Store Connect (if not done):</span>
+1. apps.apple.com/account → My Apps → + → New App
+2. Name: What Would Bill Do?
+3. Bundle ID: com.whatwouldbilldo.app
+4. SKU: whatwouldbilldo (any unique string)
+5. Primary language: English
+
+<span class="comment">## Archive and Upload:</span>
+In Xcode:
+1. Product → Destination → Any iOS Device (arm64)
+2. Product → Archive
+3. Organizer → Distribute App → App Store Connect → Upload
+4. Or from CLI after export:
+   xcrun altool --upload-app -f WhatWouldBillDo.ipa \
+     -t ios --apiKey KEY_ID --apiIssuer ISSUER_ID
+
+<span class="comment">## Deploy FastAPI to Railway:</span>
+
+Create in project root:
+- Procfile: web: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+- railway.json: { "build": { "builder": "NIXPACKS" } }
+- requirements.txt: already exists
+
+Railway setup:
+1. railway.app → New Project → Deploy from GitHub Repo
+2. Connect ClawdiusMaximus-LIVES/whatwouldbilldo (the backend repo, not the iOS repo)
+3. Add environment variables from .env:
+   OPENAI_API_KEY, ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_KEY
+4. Railway auto-detects Python, runs pip install, starts uvicorn
+5. Get the Railway URL (e.g., whatwouldbilldo.up.railway.app)
+6. Add custom domain: api.whatwouldbilldo.com → point DNS to Railway
+
+<span class="comment">## Custom Domain DNS (Namecheap):</span>
+Add CNAME record:
+  Host: api
+  Value: whatwouldbilldo.up.railway.app
+  TTL: Auto
+
+<span class="comment">## Verify end-to-end:</span>
+- API health: curl https://api.whatwouldbilldo.com/health
+  → Should return: {"status":"ok","passages_count":XXXX}
+- TestFlight build processing: ~15 min after upload
+- Install on 2-3 real devices via TestFlight
+- Full test: onboarding → 3 free convos → paywall → subscribe → unlimited
+
+<span class="comment">## TestFlight What to Test:</span>
+[ ] Onboarding completes without crash
+[ ] All 3 Bill conversations work (API responding)
+[ ] 4th conversation triggers Superwall paywall
+[ ] All 3 pricing options display correctly
+[ ] Weekly purchase completes in sandbox
+[ ] Subscription status persists after app restart
+[ ] Daily reflection loads and displays
+[ ] Widget appears on home screen after adding
+[ ] Notifications appear at 7am
+[ ] Crisis detection redirects (test: type "I want to hurt myself")
+[ ] Settings: sobriety date, milestone, restore purchases
+
+Commit: git add -A && git commit -m "S10: TestFlight ready, Railway deploy, production API, privacy manifest" && git push origin main</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: GOTCHAS -->
+<section id="gotchas">
+  <div class="section-tag">Section 06</div>
+  <h2>Known Gotchas</h2>
+  <p class="section-desc">Every one of these will cost you an hour if you hit it cold. Read before starting each session.</p>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ Swift 6 Strict Concurrency — S1</div>
+    Enable <code>SWIFT_STRICT_CONCURRENCY = complete</code> in build settings. All <code>@Observable</code> classes that are accessed across actor boundaries need <code>@MainActor</code> or explicit <code>nonisolated</code>. ChatViewModel should be <code>@MainActor</code> since it updates UI state.
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ xcodegen — Always regenerate after adding files — S1, S2...</div>
+    Every time you add a new .swift file, run <code>xcodegen generate</code>. Xcode won't see the file otherwise. Add an alias: <code>alias xg='xcodegen generate && open *.xcodeproj'</code>
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ SwiftData @Model cannot have computed properties with certain types — S1</div>
+    Don't put computed properties or complex types directly in @Model classes. Store only primitives and simple structs. For <code>citations: [String]</code>, store as JSON string in SwiftData and decode when needed, OR upgrade to iOS 17.4+ SwiftData where arrays of Codable are supported.
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ StoreKit 2: No #if DEBUG purchase bypass — S3</div>
+    Never bypass the verification step. Always use the <code>.verified(let transaction)</code> pattern. The StoreKit .storekit configuration file handles sandbox testing without code changes.
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ WidgetKit: containerBackground is required in iOS 17 — S7</div>
+    Use <code>.containerBackground(for: .widget) { Color("ParchmentBackground") }</code> instead of <code>.background()</code>. Failing this causes the widget background to appear system-default (transparent/dark) on iOS 17+.
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ App Group must be on BOTH targets — S7</div>
+    The widget extension target needs the same App Group capability as the main app target. Check both in Signing & Capabilities. Forgetting this means UserDefaults(suiteName:) returns nil silently.
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ Superwall must be configured before first view appears — S6</div>
+    Call <code>Superwall.configure()</code> in <code>App.init()</code>, before any SwiftUI views render. Configuring it in <code>onAppear</code> causes race conditions.
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ API timeout — network calls from SwiftUI — S2, S5</div>
+    Bill responses take 2-8 seconds depending on load. Set URLSession timeout to 30s minimum. Show a "Bill is reflecting..." state immediately after sending to prevent user anxiety. Never disable the send button without showing feedback.
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ Privacy Manifest (PrivacyInfo.xcprivacy) required — S10</div>
+    Apple rejects apps that use UserDefaults without a privacy manifest declaring it. Add PrivacyInfo.xcprivacy to the main target (not just the widget). Required NSPrivacyAccessedAPIType: <code>NSPrivacyAccessedAPICategoryUserDefaults</code> with reason <code>CA92.1</code> (app functionality).
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ Conversation history size — S5</div>
+    The FastAPI /ask endpoint accepts conversation_history. Keep this to the last 6 exchanges (12 messages) max on the iOS side, or you'll hit the model context limit and API will error. Truncate history before sending.
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ Copyright — NEVER mention Twelve & Twelve or As Bill Sees It — All Sessions</div>
+    The iOS app must not reference, quote, or display content from Twelve Steps and Twelve Traditions (1952) or As Bill Sees It (1967). These are copyrighted by AAWS. The corpus only contains public domain materials. If Bill's AI response ever cites these, it's a backend prompt issue — do not display the citation.
+  </div>
+
+  <div class="gotcha-item">
+    <div class="gotcha-label">⚠️ Force light mode in root — S1</div>
+    Add <code>.preferredColorScheme(.light)</code> to the root WindowGroup content. The parchment design only exists for light mode in v1. Dark mode theming is a v1.1 task.
+  </div>
+</section>
+
+<!-- SECTION 7: DISPATCH PLAN -->
+<section id="dispatch">
+  <div class="section-tag">Section 07</div>
+  <h2>Peekaboo Dispatch Plan</h2>
+  <p class="section-desc">How to send each session to Claude Code CLI from your Mac using Peekaboo. Run the build from ~/Developer/WhatWouldBillDo-iOS/.</p>
+
+  <div class="callout callout-amber">
+    <strong>📌 Before You Start</strong>
+    <p>Open Terminal. <code>cd ~/Developer</code> (or wherever you'll create the project). Keep this Cowork session open in parallel — you'll paste prompts from here into Terminal where Claude Code CLI is running. Each session ends with a git commit — check it happened before moving on.</p>
+  </div>
+
+  <div class="dispatch-step">
+    <div class="dispatch-num">1</div>
+    <div class="dispatch-content">
+      <div class="title">Start Claude Code CLI in your project directory</div>
+      <div class="desc">Open Terminal. Navigate to your developer folder: <code>cd ~/Developer</code> then run <code>claude</code> to start Claude Code CLI. Keep Claude Code running in that terminal for all 10 sessions.</div>
+    </div>
+  </div>
+
+  <div class="dispatch-step">
+    <div class="dispatch-num">2</div>
+    <div class="dispatch-content">
+      <div class="title">Sessions S1 → S10: paste prompt, wait for completion</div>
+      <div class="desc">Copy the full session prompt from this spec. Paste into Claude Code CLI. Wait for Claude to complete the task (it will commit at the end). Verify the commit happened with <code>git log --oneline -1</code>.</div>
+    </div>
+  </div>
+
+  <div class="dispatch-step">
+    <div class="dispatch-num">3</div>
+    <div class="dispatch-content">
+      <div class="title">Sessions marked 🧪 require human testing before proceeding</div>
+      <div class="desc">S1: Open in Xcode, build succeeds, runs on simulator. S3: StoreKit products load in sandbox. S4: Onboarding feels right on a real device. S5: Real API conversation works. S9: Notifications fire on real device. S10: TestFlight build installs.</div>
+    </div>
+  </div>
+
+  <div class="dispatch-step">
+    <div class="dispatch-num">4</div>
+    <div class="dispatch-content">
+      <div class="title">Sessions S6 (Superwall) and S10 (Railway) require account setup</div>
+      <div class="desc">Before S6: create Superwall project at superwall.com, get your API key, create the campaign. Before S10: create the app in App Store Connect, create IAP products, connect Railway to your GitHub repo. These are 30-minute setup tasks you do in the browser, not in Claude Code.</div>
+    </div>
+  </div>
+
+  <div class="dispatch-step">
+    <div class="dispatch-num">5</div>
+    <div class="dispatch-content">
+      <div class="title">Sessions that can auto-advance (no testing gate)</div>
+      <div class="desc">S2 → S3: networking to StoreKit, no UI yet. S7 → S8: daily reflection to settings. S8 → S9: settings to notifications. These can be sent back-to-back in one Claude Code session.</div>
+    </div>
+  </div>
+
+  <div class="dispatch-step">
+    <div class="dispatch-num">6</div>
+    <div class="dispatch-content">
+      <div class="title">Estimated total build time: 2–3 days</div>
+      <div class="desc">Day 1: S1–S3 (scaffold, networking, StoreKit). Day 2: S4–S6 (onboarding, chat, Superwall). Day 3: S7–S10 (widgets, settings, polish, TestFlight). The backend is already done — the iOS client is the work.</div>
+    </div>
+  </div>
+
+  <div class="callout callout-teal" style="margin-top:24px;">
+    <strong>🚀 After TestFlight — What's Next</strong>
+    <p>1. Run app name check to confirm "What Would Bill Do?" is available in App Store Connect (it likely is — no one else is targeting this). 2. Generate App Store metadata using the appstore-metadata skill. 3. Generate Privacy Policy and Terms at whatwouldbilldo.com/privacy and /terms using tos-privacy-generator. 4. Set up TikTok marketing — screen-record asking Bill a hard question → post to #SoberTok. 5. Submit for App Review. Expected review time: 1–3 days. Category: Health & Fitness.</p>
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  <div class="container">
+    <p>What Would Bill Do? — iOS App Spec · Generated April 2026 · Build with Claude Code CLI</p>
+    <p style="margin-top:8px;font-size:.62rem;">Team ID: 7BW79QC9WM · Bundle ID: com.whatwouldbilldo.app · GitHub: ClawdiusMaximus-LIVES/whatwouldbilldo-ios</p>
+    <p style="margin-top:8px;font-size:.62rem;">This app draws on Bill W.'s public domain writings (1938–1939). Not affiliated with AAWS.</p>
+  </div>
+</footer>
+
+</body>
+</html>
