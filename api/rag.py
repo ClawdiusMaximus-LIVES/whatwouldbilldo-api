@@ -47,8 +47,30 @@ def get_passage_count() -> int:
     return result.count or 0
 
 
+def _looks_like_complete_passage(text: str) -> bool:
+    """Reject chunks that start or end mid-sentence.
+
+    The 1939 Big Book was chunked at token boundaries during ingest, so some
+    chunks start with a lowercase word or end mid-word. Those read badly as
+    standalone reflections.
+    """
+    s = (text or "").strip()
+    if len(s) < 40:
+        return False
+    first = s[0]
+    last = s[-1]
+    starts_clean = first.isupper() or first in '"“—'
+    ends_clean = last in '.?!"”'
+    return starts_clean and ends_clean
+
+
 def get_random_passage() -> dict | None:
-    """Get a random passage for the daily reflection from the 1939 Big Book."""
+    """Get a random passage for the daily reflection from the 1939 Big Book.
+
+    Retries up to 10 times to find a chunk whose text reads as a complete
+    passage. Falls back to whatever we last fetched if no clean chunk was
+    found, so the endpoint never returns nothing.
+    """
     count_result = get_supabase().table("bill_passages")\
         .select("id", count="exact")\
         .eq("source", "big_book_1939")\
@@ -58,13 +80,22 @@ def get_random_passage() -> dict | None:
     if total == 0:
         return None
 
-    offset = random.randint(0, total - 1)
-    result = get_supabase().table("bill_passages")\
-        .select("content,source,chapter,title")\
-        .eq("source", "big_book_1939")\
-        .range(offset, offset)\
-        .execute()
-    return result.data[0] if result.data else None
+    last_seen: dict | None = None
+    for _ in range(10):
+        offset = random.randint(0, total - 1)
+        result = get_supabase().table("bill_passages")\
+            .select("content,source,chapter,title,chunk_index")\
+            .eq("source", "big_book_1939")\
+            .range(offset, offset)\
+            .execute()
+        if not result.data:
+            continue
+        passage = result.data[0]
+        last_seen = passage
+        if _looks_like_complete_passage(passage.get("content", "")):
+            return passage
+
+    return last_seen
 
 
 def format_passages_for_prompt(passages: list[dict]) -> str:
