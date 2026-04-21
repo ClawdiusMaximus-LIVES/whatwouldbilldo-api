@@ -3,6 +3,7 @@ RAG pipeline — embed query → search Supabase pgvector → return top passage
 """
 
 import os
+import re
 import random
 from openai import OpenAI
 from supabase import create_client
@@ -47,20 +48,41 @@ def get_passage_count() -> int:
     return result.count or 0
 
 
+_PAGE_PREFIX = re.compile(
+    r'^(?:Page\s+\d+\s+)*'           # “Page 60 “ or “Page 1 Page 1 “
+    r'(?:Alcoholics Anonymous\s+)?'   # optional book title
+    r'(?:Page\s+\d+\s+)?'            # trailing “Page 60 “
+    r'(?:Chapter\s+\d+\s+)?'         # optional “Chapter 6 “
+    r'(?:[A-Z][A-Z\s\']+\n)?'        # optional all-caps chapter title line
+)
+
+_MID_WORD_BREAK = re.compile(r'(\w)-?\n(\w)')
+
+
+def _clean_passage(text: str) -> str:
+    “””Strip PDF page-number artifacts and fix mid-word line breaks.”””
+    s = (text or “”).strip()
+    # Remove leading “Page XX [Alcoholics Anonymous] Page XX [Chapter X TITLE]” artifacts
+    s = _PAGE_PREFIX.sub(“”, s).strip()
+    # Rejoin words split across lines by the PDF chunker (e.g. “W\nar” → “War”)
+    s = _MID_WORD_BREAK.sub(r'\1\2', s)
+    return s
+
+
 def _looks_like_complete_passage(text: str) -> bool:
-    """Reject chunks that start or end mid-sentence.
+    “””Reject chunks that start or end mid-sentence.
 
     The 1939 Big Book was chunked at token boundaries during ingest, so some
     chunks start with a lowercase word or end mid-word. Those read badly as
-    standalone reflections.
-    """
-    s = (text or "").strip()
-    if len(s) < 40:
+    standalone reflections. We also clean PDF page-number artifacts first.
+    “””
+    s = _clean_passage(text)
+    if len(s) < 60:
         return False
     first = s[0]
     last = s[-1]
-    starts_clean = first.isupper() or first in '"“—'
-    ends_clean = last in '.?!"”'
+    starts_clean = first.isupper() or first in '””—“'
+    ends_clean = last in '.?!””'
     return starts_clean and ends_clean
 
 
@@ -81,7 +103,7 @@ def get_random_passage() -> dict | None:
         return None
 
     last_seen: dict | None = None
-    for _ in range(10):
+    for _ in range(30):
         offset = random.randint(0, total - 1)
         result = get_supabase().table("bill_passages")\
             .select("content,source,chapter,title,chunk_index")\
@@ -92,9 +114,18 @@ def get_random_passage() -> dict | None:
             continue
         passage = result.data[0]
         last_seen = passage
-        if _looks_like_complete_passage(passage.get("content", "")):
-            return passage
+        content = passage.get("content", "")
+        if _looks_like_complete_passage(content):
+            # Return cleaned version so UI never sees PDF artifacts
+            cleaned = dict(passage)
+            cleaned["content"] = _clean_passage(content)
+            return cleaned
 
+    # Fallback: return last seen with at least artifact-stripped content
+    if last_seen:
+        cleaned = dict(last_seen)
+        cleaned["content"] = _clean_passage(last_seen.get("content", ""))
+        return cleaned
     return last_seen
 
 
