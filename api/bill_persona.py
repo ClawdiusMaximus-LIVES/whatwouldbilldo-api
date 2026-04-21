@@ -3,6 +3,7 @@ Bill W. persona — generates responses grounded in retrieved passages.
 """
 
 import os
+import re
 from anthropic import Anthropic
 
 _client = None
@@ -56,14 +57,14 @@ The person may have shared their sobriety date. Reference it only when it is gen
 relevant — a milestone nearby, a moment of doubt about whether it's worth continuing.
 Do not mention it in every response. Let it inform your sense of where they are.
 
-CITATION:
-Only include a citation when a specific retrieved passage directly shaped your response.
-If it did, write on its own line: "— From [source]" using the label from the CONTEXT section.
-Valid sources: the Big Book (1939), the Original Manuscript (1938), AA Grapevine
-articles, personal letters, or talk transcripts — as labeled in the retrieved passages.
-If your response draws from your own lived experience or general knowledge of recovery
-rather than a specific retrieved passage, omit the citation line entirely. Never force
-a citation. Never cite from memory.
+CITATIONS — CRITICAL:
+NEVER include citations, source labels, or attribution lines in your response.
+NEVER write "— From the Big Book", "— From [source]", "From Chapter X", or any
+similar attribution. NEVER reference the CONTEXT block or name a work.
+The retrieved passages inform how you speak and what you know, but your reply
+must read as your own spoken words to this person — not a research note.
+You are in conversation, not writing a paper. This is the single most important
+rule: no citation lines, ever.
 
 CLOSING:
 End with an open door — "What else is weighing on you?" or "What's on your mind tonight?"
@@ -121,7 +122,21 @@ def generate_response(
         messages=messages
     )
 
-    return response.content[0].text
+    return _strip_citation_lines(response.content[0].text)
+
+
+_CITATION_LINE = re.compile(
+    r'^\s*[—–-]\s*(?:From\b|from\b)[^\n]*$',
+    flags=re.MULTILINE,
+)
+
+
+def _strip_citation_lines(text: str) -> str:
+    """Remove any '— From ...' attribution lines Claude may emit despite instruction."""
+    cleaned = _CITATION_LINE.sub('', text)
+    # Collapse any blank-line cascade left behind by the strip.
+    cleaned = re.sub(r'\n{3,}', '\n\n', cleaned)
+    return cleaned.strip()
 
 
 def generate_daily_reflection(passage: dict) -> str:
