@@ -3,6 +3,7 @@ RAG pipeline — embed query → search Supabase pgvector → return top passage
 """
 
 import os
+import random
 from openai import OpenAI
 from supabase import create_client
 
@@ -47,15 +48,21 @@ def get_passage_count() -> int:
 
 
 def get_random_passage() -> dict | None:
-    """Get a random passage for the daily reflection."""
-    result = get_supabase().rpc("get_random_passage", {}).execute()
-    if result.data:
-        return result.data[0]
-    # Fallback: get first passage from a good source
+    """Get a random passage for the daily reflection from the 1939 Big Book."""
+    count_result = get_supabase().table("bill_passages")\
+        .select("id", count="exact")\
+        .eq("source", "big_book_1939")\
+        .limit(1)\
+        .execute()
+    total = count_result.count or 0
+    if total == 0:
+        return None
+
+    offset = random.randint(0, total - 1)
     result = get_supabase().table("bill_passages")\
         .select("content,source,chapter,title")\
         .eq("source", "big_book_1939")\
-        .limit(1)\
+        .range(offset, offset)\
         .execute()
     return result.data[0] if result.data else None
 
