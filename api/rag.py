@@ -49,40 +49,33 @@ def get_passage_count() -> int:
 
 
 _PAGE_PREFIX = re.compile(
-    r'^(?:Page\s+\d+\s+)*'           # “Page 60 “ or “Page 1 Page 1 “
-    r'(?:Alcoholics Anonymous\s+)?'   # optional book title
-    r'(?:Page\s+\d+\s+)?'            # trailing “Page 60 “
-    r'(?:Chapter\s+\d+\s+)?'         # optional “Chapter 6 “
-    r'(?:[A-Z][A-Z\s\']+\n)?'        # optional all-caps chapter title line
+    r'^(?:Page\s+\d+\s+)*'
+    r'(?:Alcoholics Anonymous\s+)?'
+    r'(?:Page\s+\d+\s+)?'
+    r'(?:Chapter\s+\d+\s+)?'
+    r'(?:[A-Z][A-Z\s]+\n)?'
 )
 
 _MID_WORD_BREAK = re.compile(r'(\w)-?\n(\w)')
 
 
 def _clean_passage(text: str) -> str:
-    “””Strip PDF page-number artifacts and fix mid-word line breaks.”””
-    s = (text or “”).strip()
-    # Remove leading “Page XX [Alcoholics Anonymous] Page XX [Chapter X TITLE]” artifacts
-    s = _PAGE_PREFIX.sub(“”, s).strip()
-    # Rejoin words split across lines by the PDF chunker (e.g. “W\nar” → “War”)
+    # Strip PDF page-number artifacts and fix mid-word line breaks.
+    s = (text or '').strip()
+    s = _PAGE_PREFIX.sub('', s).strip()
     s = _MID_WORD_BREAK.sub(r'\1\2', s)
     return s
 
 
 def _looks_like_complete_passage(text: str) -> bool:
-    “””Reject chunks that start or end mid-sentence.
-
-    The 1939 Big Book was chunked at token boundaries during ingest, so some
-    chunks start with a lowercase word or end mid-word. Those read badly as
-    standalone reflections. We also clean PDF page-number artifacts first.
-    “””
+    # Reject chunks that start or end mid-sentence after cleaning artifacts.
     s = _clean_passage(text)
     if len(s) < 60:
         return False
     first = s[0]
     last = s[-1]
-    starts_clean = first.isupper() or first in '””—“'
-    ends_clean = last in '.?!””'
+    starts_clean = first.isupper() or first in ('”', '\u201c', '\u2014')
+    ends_clean = last in ('.', '?', '!', '”', '\u201d')
     return starts_clean and ends_clean
 
 
