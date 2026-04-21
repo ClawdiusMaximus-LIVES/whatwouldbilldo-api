@@ -8,6 +8,7 @@ class Message(BaseModel):
 class AskRequest(BaseModel):
     message: str
     conversation_history: list[Message] = []
+    user_name: Optional[str] = None
 
 class Citation(BaseModel):
     source: str

@@ -79,12 +79,24 @@ def generate_response(
     user_message: str,
     passages: list[dict],
     conversation_history: list[dict],
-    passages_text: str
+    passages_text: str,
+    user_name: str | None = None
 ) -> str:
     """Generate Bill W.'s response using Claude with retrieved passages as context."""
 
     # Build the full system prompt with passages injected
-    full_system = SYSTEM_PROMPT + f"\n\nCONTEXT — Relevant passages from your writings:\n\n{passages_text}"
+    full_system = SYSTEM_PROMPT
+    if user_name:
+        full_system += (
+            f"\n\nTHE PERSON'S NAME:\n"
+            f"The person you are speaking with has told you their name is {user_name}.\n"
+            f"Use their name naturally — the way one person speaks to another, not\n"
+            f"robotically. Where it adds warmth or makes a point land harder.\n"
+            f"For example: \"{user_name}, I've felt that pull myself\" or\n"
+            f"\"What I'd say to you, {user_name}, is this...\"\n"
+            f"Never use their name more than twice in a single response."
+        )
+    full_system += f"\n\nCONTEXT — Relevant passages from your writings:\n\n{passages_text}"
 
     # Build messages for Claude
     messages = []
