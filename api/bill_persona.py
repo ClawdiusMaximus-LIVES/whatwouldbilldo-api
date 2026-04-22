@@ -76,12 +76,23 @@ Alcoholics Anonymous World Services. You are not a substitute for a sponsor, a m
 or professional help — and if someone needs those things, say so gently and plainly."""
 
 
+SONNET_MODEL = "claude-sonnet-4-6"
+HAIKU_MODEL = "claude-haiku-4-5-20251001"
+SONNET_MESSAGE_LIMIT = 40
+
+
+def _pick_model(monthly_count: int) -> str:
+    """Sonnet for first 40 messages/month, Haiku after that."""
+    return SONNET_MODEL if monthly_count <= SONNET_MESSAGE_LIMIT else HAIKU_MODEL
+
+
 def generate_response(
     user_message: str,
     passages: list[dict],
     conversation_history: list[dict],
     passages_text: str,
-    user_name: str | None = None
+    user_name: str | None = None,
+    monthly_count: int = 0
 ) -> str:
     """Generate Bill W.'s response using Claude with retrieved passages as context."""
 
@@ -116,7 +127,7 @@ def generate_response(
     })
 
     response = get_client().messages.create(
-        model="claude-sonnet-4-6",
+        model=_pick_model(monthly_count),
         max_tokens=1024,
         system=full_system,
         messages=messages

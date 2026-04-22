@@ -58,7 +58,8 @@ async def ask_bill(request: Request, body: AskRequest):
     # Step 3: Generate Bill's response
     history = [{"role": m.role, "content": m.content} for m in body.conversation_history]
     user_name = (body.user_name or "").strip() or None
-    response_text = generate_response(message, passages, history, passages_text, user_name)
+    monthly_count = int(request.headers.get("X-Monthly-Count", "0"))
+    response_text = generate_response(message, passages, history, passages_text, user_name, monthly_count)
 
     # Step 4: Build citations
     from api.models import Citation
