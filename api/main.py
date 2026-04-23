@@ -91,17 +91,24 @@ async def health():
 
 @app.get("/daily-reflection", response_model=DailyReflectionResponse)
 async def daily_reflection():
-    passage = get_random_passage()
-    if not passage:
-        raise HTTPException(status_code=503, detail="No passages available")
+    """Return today's shared reflection.
 
-    reflection = generate_daily_reflection(passage)
-    source_label = passage.get("chapter") or passage.get("title") or passage.get("source", "Bill's writings")
+    Reads from the Supabase `daily_reflections` cache; on miss (first request of
+    the day), generates via Anthropic, upserts, and returns. Every subsequent
+    caller that day gets the cached row — one Anthropic call / day regardless of
+    user count, same content on iOS and the marketing site.
+    """
+    from api.daily_reflection_store import get_or_generate_today
+
+    try:
+        row = get_or_generate_today()
+    except RuntimeError as e:
+        raise HTTPException(status_code=503, detail=str(e))
 
     return DailyReflectionResponse(
-        passage=passage["content"],
-        source=source_label,
-        reflection=reflection
+        passage=row["passage"],
+        source=row["source"],
+        reflection=row["reflection"],
     )
 
 
