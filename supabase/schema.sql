@@ -16,7 +16,11 @@ create table if not exists bill_passages (
   token_count int
 );
 
--- Fast similarity search function
+-- Fast similarity search function. IMPORTANT: source allowlist + content
+-- filter is a legal safeguard. Only Bill's clearly-public-domain writings
+-- (Big Book 1939, Original Manuscript 1938, personal letters) feed the RAG.
+-- Excludes scraped grapevine/traditions/talk content that may contain
+-- copyrighted material or AAWS-trademarked references.
 create or replace function search_bill_passages(
   query_embedding vector(1536),
   match_count int default 5,
@@ -36,7 +40,10 @@ as $$
     id, content, source, chapter, title,
     1 - (embedding <=> query_embedding) as similarity
   from bill_passages
-  where 1 - (embedding <=> query_embedding) > match_threshold
+  where source in ('big_book_1939', 'manuscript_1938', 'letter')
+    and content not ilike '%copyright%'
+    and content not ilike '%all rights reserved%'
+    and 1 - (embedding <=> query_embedding) > match_threshold
   order by embedding <=> query_embedding
   limit match_count;
 $$;
