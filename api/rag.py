@@ -67,10 +67,29 @@ def _clean_passage(text: str) -> str:
     return s
 
 
+# Markers whose presence makes a chunk unsafe to display (copyright
+# notices, AAWS trademarks, scraped-site chrome). Defense-in-depth on
+# top of the _DAILY_ALLOWED_SOURCES allowlist.
+_UNSAFE_PASSAGE_MARKERS = (
+    "copyright",
+    "©",
+    "all rights reserved",
+    "alcoholics anonymous world services",
+    "aa world services",
+    "aawsinc",
+    "privacy policy",
+    "legal disclaimer",
+)
+
+
 def _looks_like_complete_passage(text: str) -> bool:
-    # Reject chunks that start or end mid-sentence after cleaning artifacts.
+    # Reject chunks that start or end mid-sentence after cleaning artifacts,
+    # or that contain copyright/trademark markers.
     s = _clean_passage(text)
     if len(s) < 60:
+        return False
+    lower = s.lower()
+    if any(marker in lower for marker in _UNSAFE_PASSAGE_MARKERS):
         return False
     first = s[0]
     last = s[-1]
@@ -80,11 +99,13 @@ def _looks_like_complete_passage(text: str) -> bool:
 
 
 _DAILY_ALLOWED_SOURCES = [
-    "big_book_1939",
-    "manuscript_1938",
-    "grapevine",
-    "letter",
-    "talk",
+    "big_book_1939",      # Big Book first edition — public domain
+    "manuscript_1938",    # Original Manuscript — public domain (412 chunks, largest safe source)
+    "letter",             # Bill's correspondence — public domain
+    # Intentionally EXCLUDED (legal/attribution risk):
+    #   "grapevine"   — scraped website content incl. copyrighted 12&12 material and AAWS trademarks
+    #   "talk"        — ambiguous; some GSC-owned transcripts may be copyrighted
+    #   "traditions"  — copyrighted 1952 Twelve & Twelve material
 ]
 
 
