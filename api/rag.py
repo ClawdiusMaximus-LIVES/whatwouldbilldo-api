@@ -79,16 +79,26 @@ def _looks_like_complete_passage(text: str) -> bool:
     return starts_clean and ends_clean
 
 
-def get_random_passage() -> dict | None:
-    """Get a random passage for the daily reflection from the 1939 Big Book.
+_DAILY_ALLOWED_SOURCES = [
+    "big_book_1939",
+    "manuscript_1938",
+    "grapevine",
+    "letter",
+    "talk",
+]
 
-    Retries up to 10 times to find a chunk whose text reads as a complete
-    passage. Falls back to whatever we last fetched if no clean chunk was
-    found, so the endpoint never returns nothing.
+
+def get_random_passage() -> dict | None:
+    """Get a random passage for the daily reflection from Bill's public-domain corpus.
+
+    Draws from the Big Book (1939), the 1938 Original Manuscript, early
+    Grapevine articles, personal letters, and talk transcripts. Excludes
+    the `traditions` source (ambiguous copyright). Retries up to 30 times
+    to find a chunk whose text reads as a complete passage.
     """
     count_result = get_supabase().table("bill_passages")\
         .select("id", count="exact")\
-        .eq("source", "big_book_1939")\
+        .in_("source", _DAILY_ALLOWED_SOURCES)\
         .limit(1)\
         .execute()
     total = count_result.count or 0
@@ -100,7 +110,7 @@ def get_random_passage() -> dict | None:
         offset = random.randint(0, total - 1)
         result = get_supabase().table("bill_passages")\
             .select("content,source,chapter,title,chunk_index")\
-            .eq("source", "big_book_1939")\
+            .in_("source", _DAILY_ALLOWED_SOURCES)\
             .range(offset, offset)\
             .execute()
         if not result.data:
