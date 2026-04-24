@@ -5,19 +5,24 @@ One row per UTC date. Both iOS and the marketing site read from this
 only pay Anthropic once per day.
 """
 
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Optional
+from zoneinfo import ZoneInfo
 
 from api.rag import get_supabase, get_random_passage
 from api.bill_persona import generate_daily_reflection
 
 
 TABLE = "daily_reflections"
+# App is US-only; rolling the daily reflection on US Eastern midnight keeps
+# morning users in NYC/Chicago/LA/etc. on the same cadence as the author's
+# intent. ZoneInfo handles EDT/EST transitions automatically.
+DAILY_TZ = ZoneInfo("America/New_York")
 
 
 def today_key() -> str:
-    """Today's date in UTC as YYYY-MM-DD — the primary key format."""
-    return datetime.now(timezone.utc).date().isoformat()
+    """Today's date in US Eastern as YYYY-MM-DD — the primary key format."""
+    return datetime.now(DAILY_TZ).date().isoformat()
 
 
 def fetch_for_date(date_key: str) -> Optional[dict]:
