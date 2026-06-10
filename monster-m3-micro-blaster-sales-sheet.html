@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monster M3 Micro Blaster — Live Sell Sheet</title>
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --panel:#13131c;
+    --panel2:#1b1b27;
+    --line:#2a2a3a;
+    --green:#39ff7a;
+    --green-dim:#1fae52;
+    --amber:#ffb627;
+    --hot:#ff2d6f;
+    --text:#f2f3f7;
+    --muted:#9aa0b4;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%,#1a1330 0%,var(--bg) 55%);
+    color:var(--text);
+    line-height:1.5;
+    padding:28px 16px 60px;
+  }
+  .wrap{max-width:1080px;margin:0 auto}
+
+  /* HERO */
+  .hero{
+    text-align:center;
+    border:1px solid var(--line);
+    border-radius:22px;
+    background:
+      radial-gradient(600px 300px at 50% 0%,rgba(57,255,122,.10),transparent 60%),
+      linear-gradient(180deg,var(--panel),#0d0d15);
+    padding:34px 24px 30px;
+    position:relative;
+    overflow:hidden;
+  }
+  .brand{
+    display:inline-flex;align-items:center;gap:8px;
+    font-weight:800;letter-spacing:3px;font-size:13px;
+    color:var(--green);text-transform:uppercase;
+    border:1px solid var(--green-dim);
+    padding:6px 14px;border-radius:999px;
+    background:rgba(57,255,122,.06);
+  }
+  h1{
+    font-size:clamp(34px,6vw,58px);
+    font-weight:900;letter-spacing:-1px;
+    margin:16px 0 6px;line-height:1.02;
+    text-shadow:0 0 28px rgba(57,255,122,.25);
+  }
+  h1 .pop{color:var(--green)}
+  .tagline{font-size:clamp(16px,2.4vw,21px);color:var(--muted);max-width:640px;margin:0 auto 18px}
+  .price-pill{
+    display:inline-flex;align-items:baseline;gap:10px;
+    background:linear-gradient(90deg,var(--hot),#ff6a3d);
+    color:#fff;font-weight:900;
+    padding:12px 22px;border-radius:14px;
+    font-size:26px;box-shadow:0 8px 30px rgba(255,45,111,.35);
+  }
+  .price-pill small{font-size:13px;font-weight:700;opacity:.85;text-decoration:line-through}
+
+  /* SECTION TITLES */
+  .sec-title{
+    display:flex;align-items:center;gap:12px;
+    font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase;
+    color:var(--amber);margin:38px 4px 16px;
+  }
+  .sec-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+
+  /* STAT GRID */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .stat{
+    background:linear-gradient(180deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:16px;
+    padding:18px 16px;text-align:center;
+    transition:transform .15s,border-color .15s;
+  }
+  .stat:hover{transform:translateY(-3px);border-color:var(--green-dim)}
+  .stat .num{font-size:30px;font-weight:900;color:var(--green);line-height:1}
+  .stat .unit{font-size:14px;color:var(--muted);font-weight:700}
+  .stat .lbl{font-size:12px;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:1px}
+
+  /* FEATURE CARDS */
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .feat{
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:16px;padding:18px;
+    display:flex;gap:14px;align-items:flex-start;
+  }
+  .feat .ico{font-size:26px;line-height:1;filter:drop-shadow(0 0 8px rgba(57,255,122,.4))}
+  .feat h3{font-size:16px;margin-bottom:4px}
+  .feat p{font-size:14px;color:var(--muted)}
+
+  /* SELLING POINTS / TALK TRACK */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.twocol{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
+  .card h2{font-size:18px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .hooks li,.bullets li{list-style:none;padding:9px 0 9px 30px;position:relative;font-size:15px;border-bottom:1px dashed var(--line)}
+  .hooks li:last-child,.bullets li:last-child{border-bottom:none}
+  .hooks li::before{content:"🎤";position:absolute;left:0;top:8px}
+  .bullets li::before{content:"✅";position:absolute;left:0;top:9px}
+  .hooks li b{color:var(--green)}
+
+  /* OBJECTIONS TABLE */
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--amber);text-transform:uppercase;font-size:11px;letter-spacing:1px}
+  td.q{color:var(--hot);font-weight:700;width:42%}
+
+  /* SPEC TABLE */
+  .spec-table td:first-child{color:var(--muted);width:45%}
+  .spec-table td:last-child{font-weight:700}
+
+  .cta-bar{
+    margin-top:36px;text-align:center;
+    border:1px dashed var(--green-dim);border-radius:18px;
+    padding:26px 18px;background:rgba(57,255,122,.04);
+  }
+  .cta-bar h2{font-size:clamp(22px,4vw,30px);margin-bottom:8px}
+  .cta-bar p{color:var(--muted)}
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+  .badge{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:34px;line-height:1.7}
+  a{color:var(--green-dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="brand">🔊 Monster Audio</span>
+    <h1>M3 <span class="pop">Micro Blaster</span></h1>
+    <p class="tagline">Pocket-sized. Clip it. Soak it. Crank it. The wearable Bluetooth speaker that goes everywhere you do — built on 40 years of Monster sound.</p>
+    <div class="price-pill">$19.99 <small>$39.99</small></div>
+  </section>
+
+  <!-- STAT BLOCK -->
+  <div class="sec-title">The Stats</div>
+  <div class="stats">
+    <div class="stat"><div class="num">12<span class="unit">hrs</span></div><div class="lbl">Playtime</div></div>
+    <div class="stat"><div class="num">IPX7</div><div class="lbl">Waterproof</div></div>
+    <div class="stat"><div class="num">5.4</div><div class="lbl">Bluetooth</div></div>
+    <div class="stat"><div class="num">80<span class="unit">g</span></div><div class="lbl">Featherweight</div></div>
+    <div class="stat"><div class="num">TWS</div><div class="lbl">Pair 2 = Stereo</div></div>
+    <div class="stat"><div class="num">USB-C</div><div class="lbl">Fast Charge</div></div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="sec-title">Why It Sells Itself</div>
+  <div class="features">
+    <div class="feat"><div class="ico">📎</div><div><h3>Clip-On &amp; Wearable</h3><p>Magnetic clip snaps to your shirt, bag, belt, or bike. Hands-free sound that moves with you — gym, trail, jobsite, shower.</p></div></div>
+    <div class="feat"><div class="ico">💧</div><div><h3>IPX7 Waterproof</h3><p>Dunk it, drop it in the pool, blast it in the rain. Submersible up to 1 meter for 30 minutes. Beach &amp; shower approved.</p></div></div>
+    <div class="feat"><div class="ico">🔋</div><div><h3>All-Day 12hr Battery</h3><p>One USB-C charge gets you through the whole day — work shift, festival, road trip. No outlet babysitting.</p></div></div>
+    <div class="feat"><div class="ico">🎶</div><div><h3>Monster Pure Sound</h3><p>40 years of audio engineering tuned into one tiny driver — punchy, clear, way bigger than its size suggests.</p></div></div>
+    <div class="feat"><div class="ico">👯</div><div><h3>TWS Stereo Pairing</h3><p>Link two M3s wirelessly for true left/right stereo. Double the speakers, double the room-filling sound.</p></div></div>
+    <div class="feat"><div class="ico">📞</div><div><h3>Built-In Mic</h3><p>Take calls hands-free without digging out your phone. Crystal-clear conversations on the move.</p></div></div>
+    <div class="feat"><div class="ico">📶</div><div><h3>Bluetooth 5.4</h3><p>The latest BT standard — rock-solid connection, instant pairing, longer range, less battery drain.</p></div></div>
+    <div class="feat"><div class="ico">🤏</div><div><h3>Fits Anywhere</h3><p>Just 73×48×33mm and lighter than 3 oz. Disappears in a pocket, palm, or backpack strap.</p></div></div>
+  </div>
+
+  <!-- TALK TRACK + BULLETS -->
+  <div class="sec-title">Your Live Script</div>
+  <div class="twocol">
+    <div class="card">
+      <h2>🔥 Opening Hooks</h2>
+      <ul class="hooks">
+        <li>"This speaker is <b>smaller than your phone</b> but louder than you think — watch this."</li>
+        <li>"I literally dropped it in <b>a glass of water</b> and it's still playing. IPX7, no joke."</li>
+        <li>"<b>Clip it to your shirt</b> and your music walks around with you — hands totally free."</li>
+        <li>"Two of these = <b>full stereo</b>. Grab a pair before they're gone."</li>
+        <li>"<b>12 hours</b> on one charge. That's the whole day, every day."</li>
+        <li>"Monster has been making sound for <b>40 years</b> — this is that quality in your pocket."</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>✅ Rapid-Fire Selling Points</h2>
+      <ul class="bullets">
+        <li>Wearable magnetic clip — gym, bike, work, shower</li>
+        <li>Truly waterproof (IPX7) — pool &amp; beach safe</li>
+        <li>12-hour battery on a quick USB-C charge</li>
+        <li>Bluetooth 5.4 — fastest, most stable connection</li>
+        <li>Pair two for immersive TWS stereo</li>
+        <li>Built-in mic for hands-free calls</li>
+        <li>Ultra-light 80g — you forget you're wearing it</li>
+        <li>Trusted Monster brand &amp; Pure Sound tuning</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- OBJECTIONS -->
+  <div class="sec-title">Crush the Objections</div>
+  <div class="card">
+    <table>
+      <tr><th>When they say…</th><th>You say…</th></tr>
+      <tr><td class="q">"It's too small to be loud."</td><td>Monster tuned this driver with 40 years of sound engineering — Pure Sound tech makes it punch way above its size. Listen for yourself.</td></tr>
+      <tr><td class="q">"Will it survive the pool/shower?"</td><td>IPX7 rated — fully submersible up to 1m for 30 minutes. Rain, pool, shower, sweat — all fine.</td></tr>
+      <tr><td class="q">"Battery probably dies fast."</td><td>12 hours on a single USB-C charge. That's a full day of nonstop play.</td></tr>
+      <tr><td class="q">"Can it get louder for a room?"</td><td>Pair two M3s for TWS stereo — instant left/right surround that fills the space.</td></tr>
+      <tr><td class="q">"Is the connection reliable?"</td><td>Bluetooth 5.4 — newest standard, instant pairing, longer range, fewer dropouts.</td></tr>
+    </table>
+  </div>
+
+  <!-- FULL SPECS -->
+  <div class="sec-title">Full Spec Sheet</div>
+  <div class="card">
+    <table class="spec-table">
+      <tr><td>Model</td><td>Monster M3 Micro Blaster (Blaster Micro)</td></tr>
+      <tr><td>Type</td><td>Wearable / clip-on portable Bluetooth speaker</td></tr>
+      <tr><td>Bluetooth</td><td>5.4</td></tr>
+      <tr><td>Battery Life</td><td>Up to 12 hours playback</td></tr>
+      <tr><td>Charging</td><td>USB-C</td></tr>
+      <tr><td>Waterproof</td><td>IPX7 (submersible 1m / 30 min)</td></tr>
+      <tr><td>Stereo Pairing</td><td>TWS — link two speakers</td></tr>
+      <tr><td>Microphone</td><td>Built-in, hands-free calls</td></tr>
+      <tr><td>Dimensions</td><td>73 × 48 × 33 mm</td></tr>
+      <tr><td>Weight</td><td>~80 g (under 3 oz)</td></tr>
+      <tr><td>Mount</td><td>Magnetic clip-on</td></tr>
+      <tr><td>Colors</td><td>Black · Green · Blue</td></tr>
+      <tr><td>Brand</td><td>Monster — 40+ years of audio engineering</td></tr>
+    </table>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-bar">
+    <h2>🛒 Tap the Pinned Product Now</h2>
+    <p>Limited live price — clip it to your cart before it sells out.</p>
+    <div class="badge-row">
+      <span class="badge">💧 IPX7 Waterproof</span>
+      <span class="badge">🔋 12-Hr Battery</span>
+      <span class="badge">📶 Bluetooth 5.4</span>
+      <span class="badge">👯 TWS Stereo</span>
+      <span class="badge">🎁 Perfect Gift</span>
+    </div>
+  </div>
+
+  <footer>
+    Internal sell-sheet for TikTok Live &amp; video. Specs compiled from Monster retail listings — confirm exact price, color &amp; stock against your current TikTok Shop product page before going live.<br>
+    Sources: Monster Store · Amazon · MCT-Audio · CentreSouq listings.
+  </footer>
+
+</div>
+</body>
+</html>
