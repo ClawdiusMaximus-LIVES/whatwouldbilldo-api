@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xtra Edge Pro — 4K Action Camera</title>
+<style>
+  :root{
+    --bg:#08090c;--panel:#12141a;--panel2:#1a1d26;--line:#2c2f3c;
+    --gold:#e7b64b;--gold2:#ffd989;--accent2:#5ac8fa;--text:#f6f4ef;--muted:#a2a4b0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+    background:radial-gradient(1100px 520px at 50% -8%,#221c10 0%,var(--bg) 60%);
+    color:var(--text);line-height:1.55;padding:26px 16px 60px}
+  .wrap{max-width:1000px;margin:0 auto}
+  .hero{text-align:center;border:1px solid var(--line);border-radius:22px;
+    background:radial-gradient(560px 280px at 50% 0%,rgba(231,182,75,.14),transparent 60%),linear-gradient(180deg,var(--panel),#0a0b0f);
+    padding:38px 24px 32px;overflow:hidden;position:relative}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-weight:800;letter-spacing:4px;
+    font-size:12px;color:var(--gold);text-transform:uppercase;border:1px solid var(--gold);
+    padding:6px 15px;border-radius:999px;background:rgba(231,182,75,.06)}
+  h1{font-size:clamp(38px,7vw,66px);font-weight:900;letter-spacing:-1.5px;margin:16px 0 4px;line-height:.98}
+  h1 .pop{background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .protag{display:inline-block;font-size:13px;font-weight:900;letter-spacing:3px;color:#0a0b0f;
+    background:linear-gradient(90deg,var(--gold),var(--gold2));padding:3px 12px;border-radius:6px;vertical-align:middle;margin-left:6px}
+  .sub{font-size:clamp(16px,2.4vw,22px);color:var(--muted);max-width:620px;margin:12px auto 22px}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .badge{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13px;font-weight:700}
+  .badge b{color:var(--gold)}
+  .sec-title{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:800;
+    letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:40px 4px 16px}
+  .sec-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+  .stat{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+    border-radius:16px;padding:20px 14px;text-align:center;transition:transform .15s,border-color .15s}
+  .stat:hover{transform:translateY(-3px);border-color:var(--gold)}
+  .stat .num{font-size:29px;font-weight:900;color:var(--gold2);line-height:1}
+  .stat .num span{font-size:15px;color:var(--muted)}
+  .stat .lbl{font-size:12px;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:1px}
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+  .feat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;gap:14px}
+  .feat .ico{font-size:26px;line-height:1}
+  .feat h3{font-size:16px;margin-bottom:4px}
+  .feat p{font-size:14px;color:var(--muted)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:8px 22px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  td{padding:12px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td:first-child{color:var(--muted);width:42%}
+  td:last-child{font-weight:700}
+  .cta{margin-top:36px;text-align:center;border:1px solid var(--gold);border-radius:18px;
+    padding:28px 18px;background:radial-gradient(400px 200px at 50% 0%,rgba(231,182,75,.14),transparent)}
+  .cta h2{font-size:clamp(22px,4vw,30px);margin-bottom:8px}
+  .cta .line{color:var(--muted);margin-top:6px}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:34px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <span class="brand">◆ XTRA</span>
+    <h1>XTRA <span class="pop">EDGE</span><span class="protag">PRO</span></h1>
+    <p class="sub">Our flagship 4K/120 action camera — dual screens, all-day battery, and true low-light power for creators who don't stop.</p>
+    <div class="badges">
+      <span class="badge"><b>4K</b> /120fps</span>
+      <span class="badge"><b>40MP</b> Photo</span>
+      <span class="badge"><b>216-min</b> Battery</span>
+      <span class="badge"><b>65ft</b> Waterproof</span>
+      <span class="badge"><b>Dual</b> OLED Screens</span>
+      <span class="badge"><b>45GB</b> Onboard</span>
+    </div>
+  </section>
+
+  <div class="sec-title">Key Specs</div>
+  <div class="stats">
+    <div class="stat"><div class="num">4K<span>/120</span></div><div class="lbl">Video</div></div>
+    <div class="stat"><div class="num">40<span>MP</span></div><div class="lbl">Photos</div></div>
+    <div class="stat"><div class="num">216<span>min</span></div><div class="lbl">Battery Life</div></div>
+    <div class="stat"><div class="num">65<span>ft</span></div><div class="lbl">Waterproof</div></div>
+    <div class="stat"><div class="num">32<span>x</span></div><div class="lbl">Slow Motion</div></div>
+    <div class="stat"><div class="num">45<span>GB</span></div><div class="lbl">Built-In Storage</div></div>
+  </div>
+
+  <div class="sec-title">Pro-Level Power</div>
+  <div class="features">
+    <div class="feat"><div class="ico">🌙</div><div><h3>Night View 4K</h3><p>A large 1/1.3" sensor captures bright, clean 4K footage after dark — the low-light action cam that actually sees.</p></div></div>
+    <div class="feat"><div class="ico">🛡️</div><div><h3>MotionMaster Stabilization</h3><p>360 Lock + TiltGuard keep footage glass-smooth and horizon-level through the roughest terrain.</p></div></div>
+    <div class="feat"><div class="ico">🖥️</div><div><h3>Dual OLED Touchscreens</h3><p>Front &amp; rear displays — frame your vlogs from the front, review and control from the back.</p></div></div>
+    <div class="feat"><div class="ico">🔋</div><div><h3>216-Minute Battery</h3><p>Industry-leading runtime — film for over 3½ hours and shoot the whole day on a charge.</p></div></div>
+    <div class="feat"><div class="ico">🎯</div><div><h3>Smart Subject Tracking</h3><p>Locks onto your subject and keeps them centered automatically — solo shoots made easy.</p></div></div>
+    <div class="feat"><div class="ico">🎬</div><div><h3>32x Slow Motion</h3><p>Turn split-seconds into cinematic slow-mo — every jump, splash, and trick, frame by frame.</p></div></div>
+    <div class="feat"><div class="ico">🎨</div><div><h3>10-bit X-Log &amp; HLG</h3><p>Professional color profiles for rich, gradeable footage straight out of the camera.</p></div></div>
+    <div class="feat"><div class="ico">🎙️</div><div><h3>Triple-Mic Array</h3><p>Three mics with wind-noise reduction deliver crisp, immersive stereo audio.</p></div></div>
+  </div>
+
+  <div class="sec-title">Full Specifications</div>
+  <div class="card">
+    <table>
+      <tr><td>Video Resolution</td><td>Up to UHD 4K at 120fps</td></tr>
+      <tr><td>Photo Resolution</td><td>40 MP</td></tr>
+      <tr><td>Image Sensor</td><td>1/1.3" CMOS</td></tr>
+      <tr><td>Field of View</td><td>155° ultra-wide</td></tr>
+      <tr><td>Stabilization</td><td>MotionMaster — 360 Lock &amp; TiltGuard</td></tr>
+      <tr><td>Slow Motion</td><td>Up to 32x</td></tr>
+      <tr><td>Color Profiles</td><td>10-bit, X-Log &amp; HLG</td></tr>
+      <tr><td>Low-Light</td><td>Night View mode</td></tr>
+      <tr><td>Smart Tracking</td><td>Automatic subject tracking</td></tr>
+      <tr><td>Displays</td><td>Dual OLED touchscreens (front &amp; rear)</td></tr>
+      <tr><td>Waterproof</td><td>65 ft (20 m) — no case needed</td></tr>
+      <tr><td>Battery</td><td>Up to 216 minutes recording</td></tr>
+      <tr><td>Internal Storage</td><td>45 GB onboard</td></tr>
+      <tr><td>Audio</td><td>Triple-mic array with wind-noise reduction</td></tr>
+      <tr><td>Connectivity</td><td>Wi-Fi &amp; Bluetooth wireless transfer</td></tr>
+      <tr><td>Model</td><td>CP.OS.00000558.01</td></tr>
+    </table>
+  </div>
+
+  <div class="cta">
+    <h2>Go Pro. Shoot Anything.</h2>
+    <p class="line">4K/120 · Night View · Dual screens · All-day battery. The action camera that keeps up with you.</p>
+  </div>
+
+  <footer>
+    Xtra Edge Pro 4K Action Camera. Specifications subject to change — confirm current price, availability &amp; exact figures on the official product listing.<br>
+    Not affiliated with any retailer. Prepared for product presentation.
+  </footer>
+
+</div>
+</body>
+</html>
