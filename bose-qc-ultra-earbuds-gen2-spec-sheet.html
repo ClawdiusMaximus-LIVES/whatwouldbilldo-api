@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bose QuietComfort Ultra Earbuds (2nd Gen)</title>
+<style>
+  :root{
+    --bg:#0c0c0e;--panel:#16171a;--panel2:#1e2024;--line:#2d2f34;
+    --accent:#e8422e;--accent2:#d8dce2;--text:#f3f4f6;--muted:#9a9ea8;--new:#37b26b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',system-ui,Arial,sans-serif;
+    background:radial-gradient(1100px 520px at 50% -8%,#1b1c20 0%,var(--bg) 60%);
+    color:var(--text);line-height:1.55;padding:26px 16px 60px}
+  .wrap{max-width:1000px;margin:0 auto}
+  .hero{text-align:center;border:1px solid var(--line);border-radius:22px;
+    background:radial-gradient(560px 280px at 50% 0%,rgba(232,66,46,.12),transparent 60%),linear-gradient(180deg,var(--panel),#0d0d10);
+    padding:40px 24px 34px;overflow:hidden}
+  .brand{display:inline-block;font-weight:800;letter-spacing:6px;font-size:15px;text-transform:uppercase}
+  .gentag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:2px;color:#0c0c0e;
+    background:linear-gradient(90deg,var(--accent),#ff6a4d);border-radius:999px;padding:5px 14px;margin-top:12px}
+  h1{font-size:clamp(27px,4.8vw,46px);font-weight:300;letter-spacing:-.5px;margin:10px 0 6px;line-height:1.04}
+  h1 b{font-weight:800}
+  .sub{font-size:clamp(15px,2.3vw,20px);color:var(--muted);max-width:620px;margin:8px auto 22px;font-weight:300}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .badge{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13px;font-weight:600}
+  .badge b{color:var(--accent)}
+  .sec-title{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:800;
+    letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin:40px 4px 16px}
+  .sec-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+  .whatsnew{border:1px solid var(--new);border-radius:16px;padding:18px 20px;
+    background:radial-gradient(400px 160px at 20% 0%,rgba(55,178,107,.12),transparent)}
+  .whatsnew h2{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--new);margin-bottom:12px}
+  .whatsnew ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px 20px}
+  .whatsnew li{padding-left:24px;position:relative;font-size:14px}
+  .whatsnew li::before{content:"✦";position:absolute;left:0;color:var(--new);font-weight:800}
+  .whatsnew li b{color:var(--text)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+  .stat{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+    border-radius:16px;padding:20px 14px;text-align:center;transition:transform .15s,border-color .15s}
+  .stat:hover{transform:translateY(-3px);border-color:var(--accent)}
+  .stat .num{font-size:28px;font-weight:800;color:var(--accent2);line-height:1}
+  .stat .num span{font-size:14px;color:var(--muted);font-weight:400}
+  .stat .lbl{font-size:12px;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:1px}
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+  .feat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;gap:14px}
+  .feat .ico{font-size:26px;line-height:1}
+  .feat h3{font-size:16px;margin-bottom:4px;font-weight:700}
+  .feat p{font-size:14px;color:var(--muted)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:8px 22px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  td{padding:12px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td:first-child{color:var(--muted);width:42%}
+  td:last-child{font-weight:600}
+  .cta{margin-top:36px;text-align:center;border:1px solid var(--accent);border-radius:18px;
+    padding:28px 18px;background:radial-gradient(400px 200px at 50% 0%,rgba(232,66,46,.12),transparent)}
+  .cta h2{font-size:clamp(22px,4vw,30px);margin-bottom:6px;font-weight:300}
+  .cta h2 b{font-weight:800}
+  .cta .price{font-size:38px;font-weight:800;color:var(--accent);margin-top:6px}
+  .cta p{color:var(--muted);margin-top:6px}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:34px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <span class="brand">BOSE</span>
+    <div class="gentag">★ 2ND GENERATION · 2025</div>
+    <h1>QuietComfort <b>Ultra</b> Earbuds</h1>
+    <p class="sub">The next generation — smarter noise cancellation, Cinema Mode, and a wireless charging case, standard.</p>
+    <div class="badges">
+      <span class="badge"><b>Improved</b> ANC</span>
+      <span class="badge"><b>Cinema</b> Mode</span>
+      <span class="badge"><b>Wireless</b> Charging</span>
+      <span class="badge"><b>6 hr</b> Battery</span>
+      <span class="badge"><b>Bluetooth</b> 5.3</span>
+    </div>
+  </section>
+
+  <div class="sec-title">✦ What's New vs Gen 1</div>
+  <div class="whatsnew">
+    <h2>Upgrades in the 2nd Gen</h2>
+    <ul>
+      <li><b>Wireless charging case</b> — now standard, no accessory cover needed.</li>
+      <li><b>Improved noise cancellation</b> — smoother, more consistent than Gen 1.</li>
+      <li><b>Cinema Mode</b> — Bose TrueSpatial turns any stereo into theater-like surround.</li>
+      <li><b>AI call clarity</b> — smarter background-noise suppression on calls.</li>
+      <li><b>Safer transparency</b> — updated Aware mode caps sudden loud peaks to protect your ears.</li>
+      <li><b>New wax-guard nozzles</b> — cleaner, lower-maintenance ear tips.</li>
+      <li><b>More app control</b> — disable touch controls, view case battery level.</li>
+    </ul>
+  </div>
+
+  <div class="sec-title">Key Specs</div>
+  <div class="stats">
+    <div class="stat"><div class="num">6<span>hr</span></div><div class="lbl">Per Charge</div></div>
+    <div class="stat"><div class="num">24<span>hr</span></div><div class="lbl">With Case</div></div>
+    <div class="stat"><div class="num">4<span>hr</span></div><div class="lbl">Immersive Mode</div></div>
+    <div class="stat"><div class="num">Qi</div><div class="lbl">Wireless Charge</div></div>
+    <div class="stat"><div class="num">5.3</div><div class="lbl">Bluetooth</div></div>
+    <div class="stat"><div class="num">IPX4</div><div class="lbl">Sweat/Water</div></div>
+  </div>
+
+  <div class="sec-title">Why You'll Love Them</div>
+  <div class="features">
+    <div class="feat"><div class="ico">🔇</div><div><h3>Improved Noise Cancellation</h3><p>Bose's world-class ANC, now smoother and more consistent — the quietest quiet they've made.</p></div></div>
+    <div class="feat"><div class="ico">🎬</div><div><h3>Cinema Mode</h3><p>Bose TrueSpatial transforms movies, shows, and games into wide, theater-like immersive sound.</p></div></div>
+    <div class="feat"><div class="ico">🎧</div><div><h3>Bose Immersive Audio</h3><p>Spatial music that surrounds you and stays locked in place as you move.</p></div></div>
+    <div class="feat"><div class="ico">🔋</div><div><h3>Wireless Charging Case</h3><p>Drop it on any Qi pad — wireless charging is now built in, no extra cover to buy.</p></div></div>
+    <div class="feat"><div class="ico">📞</div><div><h3>AI Call Clarity</h3><p>Smarter background-noise suppression keeps your voice clear on every call.</p></div></div>
+    <div class="feat"><div class="ico">🛡️</div><div><h3>Ear-Safe Transparency</h3><p>Updated Aware mode softens sudden loud sounds to help protect your hearing.</p></div></div>
+  </div>
+
+  <div class="sec-title">Full Specifications</div>
+  <div class="card">
+    <table>
+      <tr><td>Generation</td><td>2nd Gen (2025)</td></tr>
+      <tr><td>Noise Cancellation</td><td>Improved world-class ANC · Quiet &amp; Aware modes</td></tr>
+      <tr><td>Spatial Audio</td><td>Bose Immersive Audio + Cinema Mode (TrueSpatial)</td></tr>
+      <tr><td>Sound Personalization</td><td>CustomTune technology</td></tr>
+      <tr><td>Call Quality</td><td>AI-based background noise suppression</td></tr>
+      <tr><td>Battery (Earbuds)</td><td>Up to 6 hrs (up to 4 hrs with Immersive Audio)</td></tr>
+      <tr><td>Battery (with Case)</td><td>Up to 24 hours total</td></tr>
+      <tr><td>Charging Case</td><td>Wireless (Qi) + USB-C — standard</td></tr>
+      <tr><td>Bluetooth</td><td>5.3 · SBC, AAC, aptX Adaptive · Multipoint</td></tr>
+      <tr><td>Water Resistance</td><td>IPX4 (earbuds)</td></tr>
+      <tr><td>Tips</td><td>New wax-guard nozzles · multiple fit sizes</td></tr>
+      <tr><td>App Control</td><td>EQ, ANC modes, disable touch, case battery level</td></tr>
+      <tr><td>Colors</td><td>Black · White Smoke · Deep Plum</td></tr>
+    </table>
+  </div>
+
+  <div class="cta">
+    <h2>The new standard in <b>quiet</b>.</h2>
+    <div class="price">$299</div>
+    <p>Improved ANC, Cinema Mode, and wireless charging — the most complete Ultra yet.</p>
+  </div>
+
+  <footer>
+    Bose QuietComfort Ultra Earbuds (2nd Gen). Specifications subject to change — confirm current price, colors &amp; availability on the official product listing.<br>
+    Bose is a trademark of Bose Corporation. Prepared for product presentation; not affiliated with Bose Corporation.
+  </footer>
+
+</div>
+</body>
+</html>
