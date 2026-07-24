@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apple Watch Ultra — Gen 1 vs Gen 2 vs Gen 3</title>
+<style>
+  :root{
+    --bg:#0a0b0d;--panel:#141619;--panel2:#1c1f24;--line:#2b2f36;
+    --accent:#ff7a1a;--accent2:#d9dde3;--text:#f4f6fa;--muted:#99a0ad;--new:#37c26b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'SF Pro Display','Segoe UI',system-ui,Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1100px 520px at 50% -8%,#1c1a15 0%,var(--bg) 60%);
+    color:var(--text);line-height:1.5;padding:26px 16px 60px}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{text-align:center;margin-bottom:24px}
+  .brand{display:inline-block;font-weight:700;letter-spacing:5px;font-size:13px;text-transform:uppercase;color:var(--accent)}
+  h1{font-size:clamp(25px,4.6vw,44px);font-weight:800;letter-spacing:-1px;margin:10px 0 6px;line-height:1.03}
+  h1 b{color:var(--accent)}
+  .sub{font-size:clamp(15px,2.2vw,19px);color:var(--muted);max-width:640px;margin:0 auto;font-weight:400}
+  /* generation header cards */
+  .genrow{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:0;border:1px solid var(--line);
+    border-radius:16px 16px 0 0;overflow:hidden;background:var(--panel2)}
+  .genrow>div{padding:14px 12px;text-align:center;border-left:1px solid var(--line)}
+  .genrow>div:first-child{border-left:none;text-align:left;display:flex;align-items:center;font-weight:700;color:var(--muted);font-size:13px}
+  .genname{font-weight:800;font-size:15px}
+  .genyear{font-size:11px;color:var(--muted);margin-top:2px}
+  .g3{background:radial-gradient(200px 80px at 50% 0,rgba(55,194,107,.16),transparent)}
+  .g3 .genname{color:var(--new)}
+  .newpill{display:inline-block;font-size:9px;font-weight:800;letter-spacing:1px;color:#0a0b0d;
+    background:var(--new);border-radius:5px;padding:2px 6px;margin-top:4px}
+  /* comparison table */
+  .ctable{border:1px solid var(--line);border-top:none;border-radius:0 0 16px 16px;overflow:hidden;background:var(--panel)}
+  table{width:100%;border-collapse:collapse}
+  tr{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr}
+  td{padding:12px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);font-size:13.5px;text-align:center}
+  td:first-child{border-left:none;text-align:left;color:var(--muted);font-weight:700}
+  td.g3cell{background:rgba(55,194,107,.05)}
+  tr:last-child td{border-bottom:none}
+  .up{color:var(--new);font-weight:700}
+  .no{color:var(--muted);opacity:.6}
+  .sec-title{font-size:12px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin:34px 4px 14px}
+  .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:720px){.pick{grid-template-columns:1fr}}
+  .pc{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--panel)}
+  .pc.three{border-color:var(--new)}
+  .pc h3{font-size:16px;margin-bottom:8px}
+  .pc.three h3{color:var(--new)}
+  .pc ul{list-style:none;padding:0;margin:0}
+  .pc li{padding:5px 0 5px 20px;position:relative;font-size:13.5px;color:var(--muted)}
+  .pc li::before{content:"→";position:absolute;left:0;color:var(--accent)}
+  .common{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--panel);margin-top:4px}
+  .common h3{font-size:14px;color:var(--accent2);margin-bottom:10px;font-weight:700}
+  .common .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px;color:var(--muted)}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:28px;line-height:1.7}
+  .scroll-hint{display:none}
+  @media(max-width:560px){
+    .scroll-hint{display:block;text-align:center;color:var(--muted);font-size:11px;margin-bottom:6px}
+    .genrow,.ctable{min-width:520px}
+    .scroller{overflow-x:auto}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="brand">⌚ APPLE WATCH</span>
+    <h1>Ultra <b>Gen 1 · Gen 2 · Gen 3</b></h1>
+    <p class="sub">Three generations of Apple's toughest watch, compared side by side — here's exactly what changed.</p>
+  </header>
+
+  <div class="scroll-hint">← swipe to see all three →</div>
+  <div class="scroller">
+    <div class="genrow">
+      <div>Generation</div>
+      <div><div class="genname">Ultra</div><div class="genyear">Gen 1 · 2022</div></div>
+      <div><div class="genname">Ultra 2</div><div class="genyear">Gen 2 · 2023</div></div>
+      <div class="g3"><div class="genname">Ultra 3</div><div class="genyear">Gen 3 · 2025</div><span class="newpill">NEWEST</span></div>
+    </div>
+
+    <div class="ctable">
+      <table>
+        <tr><td>Chip</td><td>S8</td><td>S9 SiP</td><td class="g3cell up">S10 · 64GB</td></tr>
+        <tr><td>Display Brightness</td><td>2,000 nits</td><td>3,000 nits</td><td class="g3cell up">3,000 nits · wide-angle</td></tr>
+        <tr><td>Display</td><td>Always-On Retina</td><td>Always-On Retina</td><td class="g3cell up">Larger LTPO3 · thinner borders · 1Hz</td></tr>
+        <tr><td>Battery (normal)</td><td>Up to 36 hrs</td><td>Up to 36 hrs</td><td class="g3cell up">Up to 42 hrs</td></tr>
+        <tr><td>Low Power Mode</td><td>Up to 60 hrs</td><td>Up to 72 hrs</td><td class="g3cell">Up to 72 hrs</td></tr>
+        <tr><td>Cellular</td><td>LTE</td><td>LTE</td><td class="g3cell up">5G</td></tr>
+        <tr><td>Satellite (SOS &amp; Messages)</td><td class="no">—</td><td class="no">—</td><td class="g3cell up">✓ Built-in satellite</td></tr>
+        <tr><td>Fast Charging</td><td>Standard</td><td>Standard</td><td class="g3cell up">80% in ~45 min</td></tr>
+        <tr><td>Double Tap gesture</td><td class="no">—</td><td>✓</td><td class="g3cell">✓</td></tr>
+        <tr><td>Hypertension notifications</td><td class="no">—</td><td class="no">—</td><td class="g3cell up">✓ New</td></tr>
+        <tr><td>Sleep Score</td><td class="no">—</td><td class="no">—</td><td class="g3cell up">✓ New</td></tr>
+        <tr><td>Case</td><td>49mm Titanium</td><td>49mm Titanium</td><td class="g3cell">49mm Titanium</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="sec-title">Which One Is Right For You?</div>
+  <div class="pick">
+    <div class="pc">
+      <h3>Ultra (Gen 1)</h3>
+      <ul>
+        <li>Best value into the rugged Ultra line.</li>
+        <li>All the core adventure features.</li>
+        <li>Great if 36 hrs &amp; LTE is plenty.</li>
+        <li>Ideal budget pick on resale.</li>
+      </ul>
+    </div>
+    <div class="pc">
+      <h3>Ultra 2 (Gen 2)</h3>
+      <ul>
+        <li>Brighter 3,000-nit display.</li>
+        <li>Adds Double Tap gesture.</li>
+        <li>Faster S9 chip, on-device Siri.</li>
+        <li>Sweet spot of price vs features.</li>
+      </ul>
+    </div>
+    <div class="pc three">
+      <h3>Ultra 3 (Gen 3)</h3>
+      <ul>
+        <li>5G + built-in satellite SOS/messages.</li>
+        <li>Longest battery — up to 42 hrs.</li>
+        <li>Bigger, wider-angle display.</li>
+        <li>New health: hypertension &amp; Sleep Score.</li>
+        <li>Fastest charging + newest S10 chip.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec-title">On Every Generation</div>
+  <div class="common">
+    <h3>Shared Ultra DNA</h3>
+    <div class="chips">
+      <span class="chip">49mm Titanium case</span>
+      <span class="chip">Action Button</span>
+      <span class="chip">100m water resistance</span>
+      <span class="chip">Depth gauge · dive-ready</span>
+      <span class="chip">Dual-frequency GPS</span>
+      <span class="chip">Always-On Retina display</span>
+      <span class="chip">ECG &amp; heart rate</span>
+      <span class="chip">Blood oxygen*</span>
+      <span class="chip">Temperature sensing</span>
+      <span class="chip">Crash &amp; Fall Detection</span>
+      <span class="chip">Emergency SOS</span>
+      <span class="chip">86dB siren</span>
+    </div>
+  </div>
+
+  <footer>
+    Apple Watch Ultra — Gen 1 / Gen 2 / Gen 3 comparison. *Blood oxygen availability varies by region &amp; software.
+    Specifications subject to change — confirm current details on the official product listing.<br>
+    Apple Watch is a trademark of Apple Inc. Prepared for product presentation; not affiliated with Apple Inc.
+  </footer>
+
+</div>
+</body>
+</html>
