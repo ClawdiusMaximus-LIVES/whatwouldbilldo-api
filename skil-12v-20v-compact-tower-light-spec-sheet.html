@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKIL 12V/20V Compact Tower Light</title>
+<style>
+  :root{--bg:#0b0b0d;--panel:#15161a;--panel2:#1d1f24;--line:#2c2f36;
+    --accent:#e11d2a;--accent2:#e6e9ef;--text:#f4f6fa;--muted:#9aa0ad;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1100px 520px at 50% -8%,#241417 0%,var(--bg) 60%);
+    color:var(--text);line-height:1.55;padding:26px 16px 60px}
+  .wrap{max-width:1000px;margin:0 auto}
+  .hero{text-align:center;border:1px solid var(--line);border-radius:22px;
+    background:radial-gradient(560px 280px at 50% 0%,rgba(225,29,42,.14),transparent 60%),linear-gradient(180deg,var(--panel),#0c0c0f);
+    padding:38px 24px 32px;overflow:hidden}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-weight:900;letter-spacing:5px;
+    font-size:13px;color:#fff;text-transform:uppercase;border:1px solid var(--accent);padding:6px 15px;border-radius:6px;background:var(--accent)}
+  h1{font-size:clamp(26px,4.6vw,46px);font-weight:900;letter-spacing:-1px;margin:16px 0 4px;line-height:1.02}
+  h1 .pop{color:var(--accent)}
+  .sub{font-size:clamp(16px,2.4vw,21px);color:var(--muted);max-width:620px;margin:8px auto 20px}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .badge{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13px;font-weight:700}
+  .badge b{color:var(--accent)}
+  .sec-title{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin:40px 4px 16px}
+  .sec-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+  .stat{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:20px 14px;text-align:center;transition:transform .15s,border-color .15s}
+  .stat:hover{transform:translateY(-3px);border-color:var(--accent)}
+  .stat .num{font-size:26px;font-weight:900;color:var(--accent2);line-height:1}
+  .stat .num span{font-size:14px;color:var(--muted);font-weight:400}
+  .stat .lbl{font-size:12px;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:1px}
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+  .feat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;gap:14px}
+  .feat .ico{font-size:26px;line-height:1}
+  .feat h3{font-size:16px;margin-bottom:4px;font-weight:700}
+  .feat p{font-size:14px;color:var(--muted)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:8px 22px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  td{padding:12px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td:first-child{color:var(--muted);width:44%}
+  td:last-child{font-weight:700}
+  .note{margin-top:14px;border:1px dashed var(--accent);border-radius:12px;padding:12px 16px;font-size:13.5px;color:var(--muted)}
+  .note b{color:var(--accent2)}
+  .cta{margin-top:36px;text-align:center;border:1px solid var(--accent);border-radius:18px;padding:28px 18px;background:radial-gradient(400px 200px at 50% 0%,rgba(225,29,42,.12),transparent)}
+  .cta h2{font-size:clamp(22px,4vw,30px);margin-bottom:6px;font-weight:800}
+  .cta p{color:var(--muted);margin-top:6px}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:34px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <span class="brand">SKIL · PWR CORE 12/20</span>
+    <h1>Compact <span class="pop">Tower Light</span></h1>
+    <p class="sub">A telescoping cordless work light that throws up to 2,500 lumens — sets up tool-free and runs on 12V or 20V.</p>
+    <div class="badges">
+      <span class="badge"><b>2,500</b> Lumens</span>
+      <span class="badge"><b>45"</b> Telescoping</span>
+      <span class="badge"><b>12V/20V</b> Multi-Volt</span>
+      <span class="badge"><b>3</b> Brightness Levels</span>
+      <span class="badge"><b>100W</b> USB-C</span>
+    </div>
+  </section>
+
+  <div class="sec-title">Key Specs</div>
+  <div class="stats">
+    <div class="stat"><div class="num">2,500<span>lm</span></div><div class="lbl">Max Brightness</div></div>
+    <div class="stat"><div class="num">3</div><div class="lbl">Light Levels</div></div>
+    <div class="stat"><div class="num">45<span>in</span></div><div class="lbl">Telescoping Mast</div></div>
+    <div class="stat"><div class="num">4.5<span>hr</span></div><div class="lbl">@1,000lm (20V)</div></div>
+    <div class="stat"><div class="num">270<span>°</span></div><div class="lbl">Pivot &amp; Swivel</div></div>
+    <div class="stat"><div class="num">100<span>W</span></div><div class="lbl">USB-C Port</div></div>
+  </div>
+
+  <div class="sec-title">Why You'll Love It</div>
+  <div class="features">
+    <div class="feat"><div class="ico">💡</div><div><h3>Up to 2,500 Lumens</h3><p>Three levels — 200, 1,000, and 2,500 lumens — with a foot-control switch to change on the fly.</p></div></div>
+    <div class="feat"><div class="ico">📏</div><div><h3>Telescoping to 45"</h3><p>Extend the mast to light a whole room or work area from above; collapse it to store.</p></div></div>
+    <div class="feat"><div class="ico">🦵</div><div><h3>Tool-Free Setup</h3><p>Flip out the legs, extend the pole — stands on its own in seconds, no assembly.</p></div></div>
+    <div class="feat"><div class="ico">🔄</div><div><h3>270° Pivot &amp; Swivel</h3><p>Aim the light exactly where the work is — overhead, angled, or wide.</p></div></div>
+    <div class="feat"><div class="ico">🔋</div><div><h3>Runs 12V OR 20V</h3><p>Multi-volt — powered by any SKIL PWR CORE 12 or 20 battery.</p></div></div>
+    <div class="feat"><div class="ico">🔌</div><div><h3>100W USB-C Port</h3><p>Charge the battery or power a laptop/phone — a jobsite power hub too.</p></div></div>
+  </div>
+
+  <div class="sec-title">Full Specifications</div>
+  <div class="card">
+    <table>
+      <tr><td>Model</td><td>SKIL 12V/20V Compact Tower Light · LH2500D</td></tr>
+      <tr><td>Type</td><td>Cordless telescoping area/tower light</td></tr>
+      <tr><td>Brightness</td><td>200 / 1,000 / 2,500 lumens (foot switch)</td></tr>
+      <tr><td>Runtime @1,000 lm</td><td>Up to 4.5 hrs (20V 2.0Ah) · 3 hrs (12V 2.0Ah)</td></tr>
+      <tr><td>Mast Height</td><td>Telescopes up to 45 in.</td></tr>
+      <tr><td>Base</td><td>21-3/4 in. footprint · tool-free legs</td></tr>
+      <tr><td>Head</td><td>270° pivot &amp; swivel</td></tr>
+      <tr><td>Power</td><td>PWR CORE 12 or 20 battery</td></tr>
+      <tr><td>USB-C Port</td><td>100W (charge battery or devices)</td></tr>
+      <tr><td>Weight</td><td>~5 lbs bare · 5.6 lbs with 12V 2.0Ah battery</td></tr>
+    </table>
+  </div>
+  <div class="note"><b>Kit note:</b> Sold as a 20V kit (LH2500D-11, includes 20V 2.0Ah battery + charger) or a 12V kit (LH2500D-10). Confirm which kit &amp; battery you have before quoting it live.</div>
+
+  <div class="cta">
+    <h2>Light up the whole job.</h2>
+    <p>2,500 lumens, telescoping, tool-free — cordless on 12V or 20V.</p>
+  </div>
+
+  <footer>
+    SKIL 12V/20V Compact Tower Light (LH2500D). Specifications subject to change — confirm current price, kit contents &amp; availability on the official product listing.<br>
+    SKIL and PWR CORE are trademarks of Chervon. Prepared for product presentation; not affiliated with SKIL / Chervon.
+  </footer>
+</div>
+</body>
+</html>
